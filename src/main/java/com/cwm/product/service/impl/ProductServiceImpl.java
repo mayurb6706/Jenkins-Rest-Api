@@ -20,6 +20,7 @@ import lombok.AllArgsConstructor;
 public class ProductServiceImpl implements ProductService {
 
 	private ProductDao prodDao;
+	
 	@Override
 	public ProductResponse addProduct(ProductRequest product) {
 		Product prod= new Product();
@@ -63,5 +64,7 @@ public class ProductServiceImpl implements ProductService {
 			.build();
 	return response;
 	}
+	
+	
 
 }

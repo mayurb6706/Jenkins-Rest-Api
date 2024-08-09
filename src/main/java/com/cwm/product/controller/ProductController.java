@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cwm.product.entity.ProductRequest;
@@ -25,10 +26,12 @@ public class ProductController {
 	
 	//add new product
 	@PostMapping
-	public ResponseEntity<ProductResponse> addProduct(@RequestBody ProductRequest product){
+	@ResponseStatus(value = HttpStatus.CREATED)
+	public ProductResponse addProduct(@RequestBody ProductRequest product){
 		
 		ProductResponse response=this.productService.addProduct(product);
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		System.out.println(response);
+		return response;
 	}
 	
 	@GetMapping("/{id}")
@@ -43,4 +46,6 @@ public class ProductController {
 		return ResponseEntity.status(HttpStatus.OK).body(list);	
 		
 	}
+	
+	
 }
