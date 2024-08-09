@@ -64,7 +64,21 @@ public class ProductServiceImpl implements ProductService {
 			.build();
 	return response;
 	}
-	
+
+	@Override
+	public ProductResponse updateProduct(Long productId,ProductRequest productRequest) {
+		Product product= this.prodDao.findById(productId).get();
+		if(product!=null) {
+		BeanUtils.copyProperties(productRequest, product);
+		prodDao.save(product);
+		}
+		
+		return ProductResponse.builder().name(product.getName()).quantity(product.getQuantity())
+				.price(product.getPrice()).image(product.getImage()).build();
+		
+	    
+	}
+
 	
 
 }

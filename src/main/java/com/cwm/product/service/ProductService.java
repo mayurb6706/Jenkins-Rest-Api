@@ -7,8 +7,11 @@ import com.cwm.product.entity.ProductResponse;
 
 public interface ProductService {
 
-	public ProductResponse addProduct(ProductRequest product);
-	public List<ProductResponse> getAllProduct();
-	public ProductResponse getProductById(Long id);
+	 ProductResponse addProduct(ProductRequest product);
+	 List<ProductResponse> getAllProduct();
+	 ProductResponse getProductById(Long id);
+	 
+	 ProductResponse updateProduct(Long productId,ProductRequest  productRequest);
+
 	
 }
