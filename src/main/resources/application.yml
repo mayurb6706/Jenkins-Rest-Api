@@ -7,7 +7,7 @@ spring:
 
 spring.jpa:
   database: POSTGRESQL
-  hibernate.ddl-auto: update
+  hibernate.ddl-auto: create-drop
   show-sql: true
 
 spring.datasource:
@@ -15,4 +15,11 @@ spring.datasource:
   url: jdbc:postgresql://localhost:5432/postgres
   username: postgres
   password: pgAdmin
-  
+ 
+ 
+#bezkoder.openapi.dev-url=http://localhost:8080
+#bezkoder.openapi.prod-url=https://bezkoder-api.com 
+
+cwm:
+  openapi:
+     dev-url: http://localhost:7171

@@ -18,8 +18,11 @@ import com.cwm.product.entity.ProductRequest;
 import com.cwm.product.entity.ProductResponse;
 import com.cwm.product.service.impl.ProductServiceImpl;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping(path = "/api/product")
+@Tag(name = "Product Rest Api", description = "Product management APIs")
 public class ProductController {
 
 	@Autowired
