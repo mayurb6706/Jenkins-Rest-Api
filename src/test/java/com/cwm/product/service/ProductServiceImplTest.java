@@ -2,11 +2,13 @@
 package com.cwm.product.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
-import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -135,7 +137,6 @@ public class ProductServiceImplTest {
     }
     
     @Test
-    @DisplayName("Service delete product")
     public void testDeleteProduct() {
     	
     	when(productDao.findById(1L)).thenReturn(Optional.of(product));
@@ -144,7 +145,24 @@ public class ProductServiceImplTest {
     	
     	productService.deleteProduct(1L);
 
+    	verify(productDao,times(1)).findById(anyLong());
     	verify(productDao , times(1)).delete(product);
     }
+    
+    @Test
+    public void testDeleteProductWithNotFoundException() {
+    	
+    	Long productId= 1L;
+    	when(productDao.findById(anyLong())).thenReturn(Optional.empty());
+//    	ProductNotFoundException exception = new ProductNotFoundException("Product not found.");
+ 
+    	 Exception exception = assertThrows(ProductNotFoundException.class, () -> {
+             productService.deleteProduct(productId);
+         });
+    	 
+    	 assertEquals("Product not exit with id "+productId, exception.getLocalizedMessage());
+    	verify(productDao, times(1)).findById(productId);
+    	
+    	}
 }
 
