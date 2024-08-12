@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.BDDMockito.willDoNothing;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -130,6 +132,19 @@ public class ProductServiceImplTest {
          assertThat(response.getImage()).isEqualTo("iphone12.png");
          verify(productDao, times(1)).findById(anyLong());
          verify(productDao, times(1)).save(any(Product.class));
+    }
+    
+    @Test
+    @DisplayName("Service delete product")
+    public void testDeleteProduct() {
+    	
+    	when(productDao.findById(1L)).thenReturn(Optional.of(product));
+    	
+    	willDoNothing().given(productDao).delete(product);
+    	
+    	productService.deleteProduct(1L);
+
+    	verify(productDao , times(1)).delete(product);
     }
 }
 

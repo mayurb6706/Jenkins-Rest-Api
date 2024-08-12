@@ -79,6 +79,12 @@ public class ProductServiceImpl implements ProductService {
 	    
 	}
 
+	@Override
+	public void deleteProduct(Long productId) {
 	
+		Product productFromDB= this.prodDao.findById(productId).orElseThrow(()->new ProductNotFoundException("Product not exit with id "+productId));	
+		prodDao.delete(productFromDB);
+	}
+
 
 }

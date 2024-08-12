@@ -3,6 +3,7 @@ package com.cwm.product.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -121,5 +122,17 @@ public class ProductControllerTest {
 		
 		resultActions.andExpect(jsonPath("$.id", is(1))).andExpect(jsonPath("$.name", is("Iphone 12")))
 		.andExpect(jsonPath("$.price", is(1550.0)));
+	}
+	
+	
+	@DisplayName("Controller delete product")
+	@Test
+	public void testDeleteProduct() throws Exception {
+		
+		willDoNothing().given(productServiceImpl).deleteProduct(anyLong());
+		
+		ResultActions resultActions = this.mockMvc.perform(delete(BASE_URL+"/{id}",1L));
+		
+		resultActions.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$",is("Deleted")));
 	}
 }
