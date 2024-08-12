@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -49,43 +50,35 @@ public class ProductControllerTest {
 
 	@BeforeEach
 	public void setup() {
-	    productRequest = new ProductRequest();
-	    productRequest.setId(1L);
-        productRequest.setName("Iphone 12");
-        productRequest.setPrice(1250.0);
-        productRequest.setQuantity(10);
-        productRequest.setImage("iphone12.png");
+		productRequest = new ProductRequest();
+		productRequest.setId(1L);
+		productRequest.setName("Iphone 12");
+		productRequest.setPrice(1250.0);
+		productRequest.setQuantity(10);
+		productRequest.setImage("iphone12.png");
 
-        productResponse = ProductResponse.builder()
-        		.id(1L)
-                .name("Iphone 12")
-                .price(1250.0)
-                .quantity(10)
-                .image("iphone12.png")
-                .build();
+		productResponse = ProductResponse.builder().id(1L).name("Iphone 12").price(1250.0).quantity(10)
+				.image("iphone12.png").build();
 
 	}
 
 	@DisplayName("Controller save product")
 	@Test
 	public void testAddProduct() throws Exception {
-	
-		 given(productServiceImpl.addProduct(any(ProductRequest.class))).willReturn(productResponse);
 
-		    // Perform the request
-		    ResultActions resultActions = this.mockMvc.perform(post(BASE_URL)
-		            .contentType(MediaType.APPLICATION_JSON)
-		            .content(mapper.writeValueAsString(productRequest)))
-		            .andDo(print());
+		given(productServiceImpl.addProduct(any(ProductRequest.class))).willReturn(productResponse);
 
-		    // Verify the results
-		    resultActions.andExpect(status().isCreated())
-		            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-		            .andExpect(jsonPath("$.id", is(1)))
-		            .andExpect(jsonPath("$.name", is("Iphone 12")))
-		            .andExpect(jsonPath("$.price", is(1250.0)));
+		// Perform the request
+		ResultActions resultActions = this.mockMvc.perform(post(BASE_URL).contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(productRequest))).andDo(print());
+
+		// Verify the results
+		resultActions.andExpect(status().isCreated()).andExpect(content().contentType(MediaType.APPLICATION_JSON))
+				.andExpect(jsonPath("$.id", is(1))).andExpect(jsonPath("$.name", is("Iphone 12")))
+				.andExpect(jsonPath("$.price", is(1250.0)));
 
 	}
+
 	@DisplayName("Controller get single product")
 	@Test 
 	public void testGetProductById() throws Exception{
@@ -96,25 +89,37 @@ public class ProductControllerTest {
 		
 		verify(productServiceImpl , times(1)).getProductById(anyLong());
 	}
-	
+
 	@DisplayName("Controller get all products")
 	@Test
 	public void testGetAllProduct() throws Exception {
-		ProductResponse productResponse2 = ProductResponse.builder()
-	        		.id(2L)
-	                .name("Iphone 15")
-	                .price(1550.0)
-	                .quantity(10)
-	                .image("iphone15.png")
-	                .build();
+		ProductResponse productResponse2 = ProductResponse.builder().id(2L).name("Iphone 15").price(1550.0).quantity(10)
+				.image("iphone15.png").build();
 
-		List<ProductResponse> productResponses= Arrays.asList(productResponse,productResponse2);
+		List<ProductResponse> productResponses = Arrays.asList(productResponse, productResponse2);
 		given(productServiceImpl.getAllProduct()).willReturn(productResponses);
-		
-		ResultActions resultActions= mockMvc.perform(get(BASE_URL).accept(MediaType.APPLICATION_JSON));
-	
+
+		ResultActions resultActions = mockMvc.perform(get(BASE_URL).accept(MediaType.APPLICATION_JSON));
+
 		resultActions.andDo(print()).andExpect(MockMvcResultMatchers.status().isOk());
-	
+
 	}
-	
+
+	@DisplayName("Controller update product")
+	@Test
+	public void testUpdateProduct() throws Exception {
+		ProductResponse updatedProductResponse = ProductResponse.builder().id(1L).name("Iphone 12").price(1550.0).quantity(15)
+				.image("iphone12.png").build();
+		ProductRequest updatedProductRequest = ProductRequest.builder().id(1L).name("Iphone 12").price(1550.0).quantity(15)
+				.image("iphone12.png").build();
+
+
+		given(productServiceImpl.updateProduct(anyLong(), any(ProductRequest.class))).willReturn(updatedProductResponse);
+		
+		ResultActions resultActions= mockMvc.perform(put(BASE_URL+"/{id}",1L).contentType(MediaType.APPLICATION_JSON)
+				.content(mapper.writeValueAsString(updatedProductRequest))).andDo(print());
+		
+		resultActions.andExpect(jsonPath("$.id", is(1))).andExpect(jsonPath("$.name", is("Iphone 12")))
+		.andExpect(jsonPath("$.price", is(1550.0)));
+	}
 }

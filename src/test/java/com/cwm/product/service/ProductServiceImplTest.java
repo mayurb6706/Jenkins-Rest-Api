@@ -105,5 +105,31 @@ public class ProductServiceImplTest {
 
         verify(productDao, times(1)).findById(anyLong());
     }
+    
+    @Test 
+    public void testUpdateProduct() {
+ 
+    	ProductRequest updatedProduct=ProductRequest.builder()
+                .id(1L)
+                .name("Iphone 12")
+                .price(1550.0)
+                .quantity(15)
+                .image("iphone12.png")
+                .build();
+    	when(productDao.findById(anyLong())).thenReturn(Optional.of(product));
+    	when(productDao.save(any(Product.class))).thenReturn(product);
+    	
+    	
+    	ProductResponse response= productService.updateProduct(product.getId(), updatedProduct);
+    	
+    	System.out.println(product);
+    	 assertThat(response).isNotNull();
+         assertThat(response.getName()).isEqualTo("Iphone 12");
+         assertThat(response.getPrice()).isEqualTo(1550.0);
+         assertThat(response.getQuantity()).isEqualTo(15);
+         assertThat(response.getImage()).isEqualTo("iphone12.png");
+         verify(productDao, times(1)).findById(anyLong());
+         verify(productDao, times(1)).save(any(Product.class));
+    }
 }
 
