@@ -19,3 +19,7 @@ spring.datasource:
 cwm:
   openapi:
      dev-url: http://localhost:7171
+     
+app:   
+  secret: mayurb  
+     
