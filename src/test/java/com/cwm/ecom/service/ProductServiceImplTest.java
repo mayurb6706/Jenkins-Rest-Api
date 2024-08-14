@@ -1,5 +1,5 @@
 
-package com.cwm.product.service;
+package com.cwm.ecom.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,12 +22,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.cwm.product.dao.ProductDao;
-import com.cwm.product.entity.ProductRequest;
-import com.cwm.product.entity.ProductResponse;
-import com.cwm.product.exception.ProductNotFoundException;
-import com.cwm.product.model.Product;
-import com.cwm.product.service.impl.ProductServiceImpl;
+import com.cwm.ecom.dao.ProductDao;
+import com.cwm.ecom.entity.ProductRequest;
+import com.cwm.ecom.entity.ProductResponse;
+import com.cwm.ecom.exception.ProductNotFoundException;
+import com.cwm.ecom.model.Product;
+import com.cwm.ecom.service.impl.ProductServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceImplTest {

@@ -8,12 +8,12 @@
 		<version>3.2.5</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.cwm.product</groupId>
+	<groupId>com.cwm.ecom</groupId>
 	<artifactId>Product-Service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Product-Service</name>
 	<description>Product Service project for Spring Boot</description>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<properties>
 		<java.version>17</java.version>
 		<project-name>ecom-app</project-name>

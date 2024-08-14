@@ -1,4 +1,4 @@
-package com.cwm.product.controller;
+package com.cwm.ecom.controller;
 
 import java.util.List;
 
@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cwm.product.model.User;
-import com.cwm.product.service.impl.UserServiceImpl;
+import com.cwm.ecom.model.User;
+import com.cwm.ecom.service.impl.UserServiceImpl;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 

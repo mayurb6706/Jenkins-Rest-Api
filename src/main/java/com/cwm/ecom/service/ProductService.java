@@ -1,9 +1,9 @@
-package com.cwm.product.service;
+package com.cwm.ecom.service;
 
 import java.util.List;
 
-import com.cwm.product.entity.ProductRequest;
-import com.cwm.product.entity.ProductResponse;
+import com.cwm.ecom.entity.ProductRequest;
+import com.cwm.ecom.entity.ProductResponse;
 
 public interface ProductService {
 

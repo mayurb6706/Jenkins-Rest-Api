@@ -1,4 +1,4 @@
-package com.cwm.product.service.impl;
+package com.cwm.ecom.service.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -6,12 +6,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import com.cwm.product.dao.ProductDao;
-import com.cwm.product.entity.ProductRequest;
-import com.cwm.product.entity.ProductResponse;
-import com.cwm.product.exception.ProductNotFoundException;
-import com.cwm.product.model.Product;
-import com.cwm.product.service.ProductService;
+import com.cwm.ecom.dao.ProductDao;
+import com.cwm.ecom.entity.ProductRequest;
+import com.cwm.ecom.entity.ProductResponse;
+import com.cwm.ecom.exception.ProductNotFoundException;
+import com.cwm.ecom.model.Product;
+import com.cwm.ecom.service.ProductService;
 
 import lombok.AllArgsConstructor;
 

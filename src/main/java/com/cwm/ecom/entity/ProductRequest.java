@@ -1,4 +1,4 @@
-package com.cwm.product.entity;
+package com.cwm.ecom.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

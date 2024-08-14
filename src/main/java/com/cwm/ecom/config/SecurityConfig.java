@@ -1,4 +1,4 @@
-package com.cwm.product.config;
+package com.cwm.ecom.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,8 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.cwm.product.filter.SecurityFilter;
-import com.cwm.product.service.impl.UserServiceImpl;
+import com.cwm.ecom.filter.SecurityFilter;
+import com.cwm.ecom.service.impl.UserServiceImpl;
 
 @EnableWebSecurity
 @EnableMethodSecurity

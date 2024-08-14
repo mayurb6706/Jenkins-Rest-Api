@@ -1,4 +1,4 @@
-package com.cwm.product.service.impl;
+package com.cwm.ecom.service.impl;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,11 +12,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.cwm.product.dao.AddressDao;
-import com.cwm.product.dao.UserDao;
-import com.cwm.product.model.Address;
-import com.cwm.product.model.User;
-import com.cwm.product.service.UserService;
+import com.cwm.ecom.dao.AddressDao;
+import com.cwm.ecom.dao.UserDao;
+import com.cwm.ecom.model.Address;
+import com.cwm.ecom.model.User;
+import com.cwm.ecom.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {

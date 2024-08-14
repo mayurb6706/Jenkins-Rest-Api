@@ -1,4 +1,4 @@
-package com.cwm.product.controller;
+package com.cwm.ecom.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cwm.product.entity.UserRequest;
-import com.cwm.product.entity.UserResponse;
-import com.cwm.product.utils.JwtUtils;
+import com.cwm.ecom.entity.UserRequest;
+import com.cwm.ecom.entity.UserResponse;
+import com.cwm.ecom.utils.JwtUtils;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 

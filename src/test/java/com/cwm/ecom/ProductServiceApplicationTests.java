@@ -1,4 +1,4 @@
-package com.cwm.product;
+package com.cwm.ecom;
 
 import org.springframework.boot.test.context.SpringBootTest;
 

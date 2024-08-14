@@ -1,10 +1,10 @@
-package com.cwm.product.exception;
+package com.cwm.ecom.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.cwm.product.entity.ApiResponse;
+import com.cwm.ecom.entity.ApiResponse;
 
 
 @RestControllerAdvice

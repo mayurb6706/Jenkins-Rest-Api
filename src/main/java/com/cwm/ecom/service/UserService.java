@@ -1,9 +1,9 @@
-package com.cwm.product.service;
+package com.cwm.ecom.service;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.cwm.product.model.User;
+import com.cwm.ecom.model.User;
 
 public interface UserService {
 

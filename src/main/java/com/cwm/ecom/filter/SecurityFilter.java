@@ -1,4 +1,4 @@
-package com.cwm.product.filter;
+package com.cwm.ecom.filter;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.cwm.product.utils.JwtUtils;
+import com.cwm.ecom.utils.JwtUtils;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

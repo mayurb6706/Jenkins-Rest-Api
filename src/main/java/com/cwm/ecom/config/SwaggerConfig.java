@@ -1,4 +1,4 @@
-package com.cwm.product.config;
+package com.cwm.ecom.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

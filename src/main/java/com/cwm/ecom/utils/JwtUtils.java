@@ -1,4 +1,4 @@
-package com.cwm.product.utils;
+package com.cwm.ecom.utils;
 
 import java.util.Date;
 import java.util.concurrent.TimeUnit;

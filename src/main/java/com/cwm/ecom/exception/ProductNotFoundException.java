@@ -1,4 +1,4 @@
-package com.cwm.product.exception;
+package com.cwm.ecom.exception;
 
 
 public class ProductNotFoundException  extends RuntimeException{

@@ -1,4 +1,4 @@
-package com.cwm.product.repo;
+package com.cwm.ecom.repo;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
@@ -10,8 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import com.cwm.product.dao.ProductDao;
-import com.cwm.product.model.Product;
+import com.cwm.ecom.dao.ProductDao;
+import com.cwm.ecom.model.Product;
 
 @DataJpaTest
 public class ProductDaoTest {

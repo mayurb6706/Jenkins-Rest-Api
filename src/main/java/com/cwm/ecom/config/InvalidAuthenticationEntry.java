@@ -1,4 +1,4 @@
-package com.cwm.product.config;
+package com.cwm.ecom.config;
 
 import java.io.IOException;
 

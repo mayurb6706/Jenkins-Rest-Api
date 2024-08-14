@@ -1,4 +1,4 @@
-package com.cwm.product.service;
+package com.cwm.ecom.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,11 +28,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.cwm.product.dao.AddressDao;
-import com.cwm.product.dao.UserDao;
-import com.cwm.product.model.Address;
-import com.cwm.product.model.User;
-import com.cwm.product.service.impl.UserServiceImpl;
+import com.cwm.ecom.dao.AddressDao;
+import com.cwm.ecom.dao.UserDao;
+import com.cwm.ecom.model.Address;
+import com.cwm.ecom.model.User;
+import com.cwm.ecom.service.impl.UserServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
