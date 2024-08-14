@@ -1,8 +1,15 @@
 package com.cwm.product.service.impl;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.cwm.product.dao.AddressDao;
@@ -12,22 +19,22 @@ import com.cwm.product.model.User;
 import com.cwm.product.service.UserService;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Autowired
 	private UserDao userDao;
 
 	@Autowired
 	private AddressDao addressDao;
-	
-	
+
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	@Override
 	public User saveUser(User user) {
-		// TODO: encrypt password
-		System.out.println(user.getAddress());
-		if (user.getAddress() != null) {	
-			Address address= addressDao.save(user.getAddress());
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		if (user.getAddress() != null) {
+			Address address = addressDao.save(user.getAddress());
 			user.setAddress(address);
 		}
 		return userDao.save(user);
@@ -45,4 +52,22 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	@Override
+	public Optional<User> findByUsername(String username) {
+		Optional<User> user = this.userDao.findByUsername(username);
+		return user;
+	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = new User();
+		Optional<User> optionalUser = this.userDao.findByUsername(username);
+		if (!optionalUser.isEmpty()) {
+			user = optionalUser.get();
+			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+					user.getRole().stream().map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toSet()));
+		} else
+			throw new UsernameNotFoundException("User not found.");
+
+	}
 }

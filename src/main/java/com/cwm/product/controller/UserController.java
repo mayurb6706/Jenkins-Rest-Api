@@ -9,26 +9,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cwm.product.entity.UserRequest;
-import com.cwm.product.entity.UserResponse;
 import com.cwm.product.model.User;
 import com.cwm.product.service.impl.UserServiceImpl;
-import com.cwm.product.utils.JwtUtils;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/user")
+@Tag(name = "User Api")
 public class UserController {
+	
 	@Autowired
 	private UserServiceImpl userService;
-	
-//	@Autowired
-//	private JwtUtils utils;
 
-//save user
-	@PostMapping
+	@PostMapping("/create")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public User saveUser(@RequestBody User user) {
 		return userService.saveUser(user);
@@ -40,11 +38,15 @@ public class UserController {
 		return userService.getSingleUser(userId);
 	}
 
-	@GetMapping
+	@GetMapping("/all-users")
 	@ResponseStatus(value = HttpStatus.OK)
 	public List<User> getAllUsers() {
 		return userService.findAllUsers();
 	}
-	
-	
+
+	@GetMapping("/username")
+	@ResponseStatus(value = HttpStatus.OK)
+	public User getByUsername(@RequestParam String username) {
+		return userService.findByUsername(username).get();
+	}
 }

@@ -1,7 +1,14 @@
 package com.cwm.product.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -16,6 +23,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.cwm.product.dao.AddressDao;
 import com.cwm.product.dao.UserDao;
@@ -31,6 +42,13 @@ class UserServiceTest {
 
 	@Mock
 	private AddressDao addressDao;
+
+	@Mock
+	private BCryptPasswordEncoder passwordEncoder;
+
+
+	@InjectMocks
+	private UserServiceImpl userDetailsService;
 
 	@InjectMocks
 	private UserServiceImpl userService;
@@ -56,10 +74,16 @@ class UserServiceTest {
 
 	@Test
 	void testSaveUser() {
+
+		
+		
+		 when(passwordEncoder.encode(user1.getPassword())).thenReturn("password");
 		  when(addressDao.save(address)).thenReturn(address);
+		
 		  when(this.userDao.save(user1)).thenReturn(user1);
 		
 		  User user= this.userService.saveUser(user1);
+		  System.out.println(user);
 		  System.out.println(user);
 		  assertThat(user).isNotNull();
 		  assertThat(user.getUsername()).isEqualTo("username");
@@ -73,6 +97,11 @@ class UserServiceTest {
 		  assertThat(user.getAddress().getCountry()).isEqualTo("INDIA");
 		  assertThat(user.getAddress().getPin()).isEqualTo("411052");
 		  assertThat(user.getAddress().getStreet()).isEqualTo("karvenager");
+		  
+		 User  user3 = User.builder().firstName("Mayur").lastName("Bhosale").email("mayur@test.com").contact("1234567890")
+					.username("username").password("password").address(null).role(roles).build();
+		  this.userService.saveUser(user3);
+		  
 	}
 
 	@Test
@@ -113,5 +142,44 @@ class UserServiceTest {
 			assertThat(user.getAddress().getPin()).isEqualTo("411052");
 		
 	}
+
+	@Test 
+	void testFindByUsername() {
+		when(userDao.findByUsername(anyString())).thenReturn(Optional.of(user2));
+		User user= userService.findByUsername("username1").get();
+		 assertThat(user).isNotNull();
+		  assertThat(user.getUsername()).isEqualTo("username1");
+		  assertThat(user.getFirstName()).isEqualTo("Shyam");
+		  assertThat(user.getLastName()).isEqualTo("Kadam");
+		  assertThat(user.getPassword()).isEqualTo("password1");
+		  assertThat(user.getEmail()).isEqualTo("shyam@test.com");
+		  assertThat(user.getContact()).isEqualTo("1234567891");
+		  
+		  assertThat(user.getAddress().getCity()).isEqualTo("Pune");
+			assertThat(user.getAddress().getPin()).isEqualTo("411052");
+	}
+
+	@Test
+	void testLoadByUsername() {
+		when(userDao.findByUsername(anyString())).thenReturn(Optional.of(user2));
+		User user= userService.findByUsername("username1").get();
+		
+		  UserDetails userDetails = userService.loadUserByUsername("username1");
+		  assertNotNull(userDetails);
+	        assertEquals(user.getUsername() ,userDetails.getUsername());
+	        assertEquals(user.getPassword(), userDetails.getPassword());
+	        assertTrue(userDetails.getAuthorities().contains(new SimpleGrantedAuthority("Admin")));
+	        verify(userDao,times(2)).findByUsername(anyString());
+	        
+	        
+	        when(userDao.findByUsername(anyString())).thenReturn(Optional.empty());
+	        UsernameNotFoundException exception = new UsernameNotFoundException("User not found.");
+	        assertThrows(UsernameNotFoundException.class, () -> {
+	            userDetailsService.loadUserByUsername("user");
+	        });
+	        
+	        assertEquals("User not found.", exception.getMessage());
+	 
+	    }
 
 }

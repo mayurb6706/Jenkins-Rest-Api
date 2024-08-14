@@ -23,7 +23,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping(path = "/api/product")
-@Tag(name = "Product Api", description = "Product management APIs")
+@Tag(name = "Product Api", description = "Product  APIs")
 public class ProductController {
 
 	@Autowired

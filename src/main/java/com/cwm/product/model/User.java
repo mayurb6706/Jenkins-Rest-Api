@@ -2,6 +2,7 @@ package com.cwm.product.model;
 
 import java.util.Set;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
@@ -43,7 +44,7 @@ public class User {
 	private String username;
 	private String password;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_id") 
     private Address address;
 

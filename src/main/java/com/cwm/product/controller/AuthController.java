@@ -2,6 +2,8 @@ package com.cwm.product.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,10 +24,14 @@ public class AuthController {
 	@Autowired
 	private JwtUtils utils;
 	
+	@Autowired
+	private AuthenticationManager authManager;
+	
 	@PostMapping("/login")
 	@ResponseStatus(value = HttpStatus.OK)
 	public UserResponse login(@RequestBody UserRequest userRequest) {
-		String token= utils.gernerateToke(userRequest.getUsername());
+		authManager.authenticate(new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword()));
+		String token= utils.gernerateToken(userRequest.getUsername());
 		UserResponse response= UserResponse.builder().token(token).message("Success").status(HttpStatus.OK).build();
 		return  response;
 	}
