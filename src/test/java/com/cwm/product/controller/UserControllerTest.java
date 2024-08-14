@@ -11,7 +11,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import com.cwm.product.model.Address;
 import com.cwm.product.model.User;
 import com.cwm.product.service.impl.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,19 +40,27 @@ class UserControllerTest {
 	@MockBean
 	private UserServiceImpl userService;
 	
+//	@Mock
+//	private JwtUtils utils;
+	
 	@Autowired
 	private ObjectMapper mapper;
 	private User user1, user2;
+	
+	private Address address;
+	private Set<String> roles= new HashSet<>();
 	
 	private List<User> userList= new ArrayList<>();
 	
 	@BeforeEach
 	void setUp() throws Exception {
-		
+		roles.add("Admin");
+		address = Address.builder().street("karvenager").city("Pune").state("Maharashtra").country("INDIA")
+				.pin("411052").build();
 		user1 = User.builder().firstName("Mayur").lastName("Bhosale").email("mayur@test.com").contact("1234567890")
-				.username("username").password("password").build();
+				.username("username").password("password").address(address).role(roles).build();
 		user2 = User.builder().firstName("Shyam").lastName("Kadam").email("shyam@test.com").contact("1234567891")
-				.username("username1").password("password1").build();
+				.username("username1").password("password1").address(address).role(roles).build();
 
 		userList.add(user1);
 		userList.add(user2);
@@ -87,7 +98,9 @@ class UserControllerTest {
 		.andExpect(jsonPath("$.email", is("mayur@test.com")))
 		.andExpect(jsonPath("$.username", is("username")))
 		.andExpect(jsonPath("$.password", is("password")))
-		.andExpect(jsonPath("$.contact", is("1234567890")));
+		.andExpect(jsonPath("$.contact", is("1234567890")))
+		.andExpect(jsonPath("$.address.country",is("INDIA")));
+		
 	}
 
 	@Test

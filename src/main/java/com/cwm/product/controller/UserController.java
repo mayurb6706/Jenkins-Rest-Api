@@ -24,8 +24,8 @@ public class UserController {
 	@Autowired
 	private UserServiceImpl userService;
 	
-	@Autowired
-	private JwtUtils utils;
+//	@Autowired
+//	private JwtUtils utils;
 
 //save user
 	@PostMapping
@@ -46,11 +46,5 @@ public class UserController {
 		return userService.findAllUsers();
 	}
 	
-	@PostMapping("/login")
-	@ResponseStatus(value = HttpStatus.OK)
-	public UserResponse login(@RequestBody UserRequest userRequest) {
-		String token= utils.gernerateToke(userRequest.getUsername());
-		UserResponse response= UserResponse.builder().token(token).message("Success").status(HttpStatus.OK).build();
-		return  response;
-	}
+	
 }

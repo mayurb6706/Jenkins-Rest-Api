@@ -21,5 +21,11 @@ cwm:
      dev-url: http://localhost:7171
      
 app:   
-  secret: mayurb  
+  secret: mayurb
+
+logging:
+  level:
+    '[org.springframework.web, org.hibernate]': DEBUG  
+     
+ 
      
