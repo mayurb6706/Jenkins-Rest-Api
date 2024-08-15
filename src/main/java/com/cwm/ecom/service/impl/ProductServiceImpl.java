@@ -28,10 +28,14 @@ public class ProductServiceImpl implements ProductService {
 		prodDao.save(prod);
 		ProductResponse response= ProductResponse.builder()
 				.name(prod.getName())
-				.price(prod.getPrice())
-				.quantity(prod.getQuantity())
-				.id(prod.getId())
+				.sku(prod.getSku())
+				.unitPrice(prod.getUnitPrice())
+				.unitsInStock(prod.getUnitsInStock())
+				.description(prod.getDescription())
 				.image(prod.getImage())
+				.dateCreadted(prod.getDateCreadted())
+				.lastUpdated(prod.getLastUpdated())
+				.categeoryId(prod.getCategeoryId())
 				.build();
 		return response;
 	}
@@ -42,10 +46,14 @@ public class ProductServiceImpl implements ProductService {
 		List<ProductResponse> responseList=productList.stream().map(prod->{
 			ProductResponse response= ProductResponse.builder()
 					.name(prod.getName())
-					.price(prod.getPrice())
-					.quantity(prod.getQuantity())
-					.id(prod.getId())
+					.sku(prod.getSku())
+					.unitPrice(prod.getUnitPrice())
+					.unitsInStock(prod.getUnitsInStock())
+					.description(prod.getDescription())
 					.image(prod.getImage())
+					.dateCreadted(prod.getDateCreadted())
+					.lastUpdated(prod.getLastUpdated())
+					.categeoryId(prod.getCategeoryId())
 					.build();
 			return response;
 		}).collect(Collectors.toList());
@@ -57,10 +65,14 @@ public class ProductServiceImpl implements ProductService {
 	Product prod= this.prodDao.findById(id).orElseThrow(()-> new ProductNotFoundException("Product not exit with id "+id));
 	ProductResponse response=ProductResponse.builder()
 			.name(prod.getName())
-			.price(prod.getPrice())
-			.quantity(prod.getQuantity())
-			.id(prod.getId())
+			.sku(prod.getSku())
+			.unitPrice(prod.getUnitPrice())
+			.unitsInStock(prod.getUnitsInStock())
+			.description(prod.getDescription())
 			.image(prod.getImage())
+			.dateCreadted(prod.getDateCreadted())
+			.lastUpdated(prod.getLastUpdated())
+			.categeoryId(prod.getCategeoryId())
 			.build();
 	return response;
 	}
@@ -73,10 +85,17 @@ public class ProductServiceImpl implements ProductService {
 		prodDao.save(product);
 		}
 		
-		return ProductResponse.builder().name(product.getName()).quantity(product.getQuantity())
-				.price(product.getPrice()).image(product.getImage()).build();
-		
-	    
+		return ProductResponse.builder()
+				.name(product.getName())
+				.sku(product.getSku())
+				.unitPrice(product.getUnitPrice())
+				.unitsInStock(product.getUnitsInStock())
+				.description(product.getDescription())
+				.image(product.getImage())
+				.dateCreadted(product.getDateCreadted())
+				.lastUpdated(product.getLastUpdated())
+				.categeoryId(product.getCategeoryId())
+				.build();
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.cwm.ecom.model;
 
+import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,10 +27,17 @@ public class Product {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	private String sku;
 	private String name;
-	private Double price;
-	private int quantity;
+	private Double unitPrice;
+	private int unitsInStock;
 	private String image;
-	
+	private Date dateCreadted;
+	private Date lastUpdated;
+	private String description;
+//	TODO: Create a category
+	private Long categeoryId;
 
 }
+
+

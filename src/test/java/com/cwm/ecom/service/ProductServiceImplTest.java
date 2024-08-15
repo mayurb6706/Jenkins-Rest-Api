@@ -12,6 +12,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,19 +44,26 @@ public class ProductServiceImplTest {
 
     @BeforeEach
     public void setup() {
-        product = Product.builder()
-                .id(1L)
-                .name("Iphone 12")
-                .price(1250.0)
-                .quantity(10)
-                .image("iphone12.png")
-                .build();
+        product = Product.builder().name("Crash Course in Python")
+        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
+        		.unitPrice(14.99)
+        		.image("assets/images/products/books/book-luv2code-1000.png")
+        		.unitsInStock(100)
+        		.dateCreadted(new Date())
+        		.lastUpdated(new Date())
+        		.categeoryId(1L)
+        		.sku("cwm")
+        		.build();
 
         productRequest = new ProductRequest();
-        productRequest.setName("Iphone 12");
-        productRequest.setPrice(1250.0);
-        productRequest.setQuantity(10);
-        productRequest.setImage("iphone12.png");
+        productRequest.setName("Crash Course in Python");
+        productRequest.setUnitPrice(14.99);
+        productRequest.setUnitsInStock(100);
+        productRequest.setImage("assets/images/products/books/book-luv2code-1000.png");
+        productRequest.setCategeoryId(1L);
+        productRequest.setSku("cwm");
+        productRequest.setLastUpdated(new Date());
+        productRequest.setDateCreadted(new Date());
     }
 
     @Test
@@ -65,10 +73,11 @@ public class ProductServiceImplTest {
         ProductResponse response = productService.addProduct(productRequest);
 
         assertThat(response).isNotNull();
-        assertThat(response.getName()).isEqualTo("Iphone 12");
-        assertThat(response.getPrice()).isEqualTo(1250.0);
-        assertThat(response.getQuantity()).isEqualTo(10);
-        assertThat(response.getImage()).isEqualTo("iphone12.png");
+        assertThat(response.getName()).isEqualTo("Crash Course in Python");
+        assertThat(response.getUnitPrice()).isEqualTo(14.99);
+        assertThat(response.getUnitsInStock()).isEqualTo(100);
+        assertThat(response.getImage()).isEqualTo("assets/images/products/books/book-luv2code-1000.png");
+        assertThat(response.getSku()).isEqualTo("cwm");
         verify(productDao, times(1)).save(any(Product.class));
     }
 
@@ -80,7 +89,7 @@ public class ProductServiceImplTest {
 
         assertThat(responses).isNotEmpty();
         assertThat(responses.size()).isEqualTo(1);
-        assertThat(responses.get(0).getName()).isEqualTo("Iphone 12");
+        assertThat(responses.get(0).getName()).isEqualTo("Crash Course in Python");
         verify(productDao, times(1)).findAll();
     }
 
@@ -91,10 +100,12 @@ public class ProductServiceImplTest {
         ProductResponse response = productService.getProductById(1L);
 
         assertThat(response).isNotNull();
-        assertThat(response.getName()).isEqualTo("Iphone 12");
-        assertThat(response.getPrice()).isEqualTo(1250.0);
-        assertThat(response.getQuantity()).isEqualTo(10);
-        assertThat(response.getImage()).isEqualTo("iphone12.png");
+        assertThat(response).isNotNull();
+        assertThat(response.getName()).isEqualTo("Crash Course in Python");
+        assertThat(response.getUnitPrice()).isEqualTo(14.99);
+        assertThat(response.getUnitsInStock()).isEqualTo(100);
+        assertThat(response.getImage()).isEqualTo("assets/images/products/books/book-luv2code-1000.png");
+        assertThat(response.getSku()).isEqualTo("cwm");
         verify(productDao, times(1)).findById(anyLong());
     }
 
@@ -113,24 +124,29 @@ public class ProductServiceImplTest {
     public void testUpdateProduct() {
  
     	ProductRequest updatedProduct=ProductRequest.builder()
-                .id(1L)
-                .name("Iphone 12")
-                .price(1550.0)
-                .quantity(15)
-                .image("iphone12.png")
-                .build();
+    			.name("Crash Course in Python2")
+        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
+        		.unitPrice(17.35)
+        		.image("assets/images/products/books/book-luv2code-1001.png")
+        		.unitsInStock(115)
+        		.dateCreadted(new Date())
+        		.lastUpdated(new Date())
+        		.categeoryId(1L)
+        		.sku("cwm")
+        		.build();
     	when(productDao.findById(anyLong())).thenReturn(Optional.of(product));
     	when(productDao.save(any(Product.class))).thenReturn(product);
     	
+    	Long productId= 1L;
     	
-    	ProductResponse response= productService.updateProduct(product.getId(), updatedProduct);
+    	ProductResponse response= productService.updateProduct(productId, updatedProduct);
     	
-    	System.out.println(product);
     	 assertThat(response).isNotNull();
-         assertThat(response.getName()).isEqualTo("Iphone 12");
-         assertThat(response.getPrice()).isEqualTo(1550.0);
-         assertThat(response.getQuantity()).isEqualTo(15);
-         assertThat(response.getImage()).isEqualTo("iphone12.png");
+         assertThat(response.getName()).isEqualTo("Crash Course in Python2");
+         assertThat(response.getUnitPrice()).isEqualTo(17.35);
+         assertThat(response.getUnitsInStock()).isEqualTo(115);
+         assertThat(response.getImage()).isEqualTo("assets/images/products/books/book-luv2code-1001.png");
+         assertThat(response.getSku()).isEqualTo("cwm");
          verify(productDao, times(1)).findById(anyLong());
          verify(productDao, times(1)).save(any(Product.class));
     }
