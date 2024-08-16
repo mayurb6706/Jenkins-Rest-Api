@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cwm.ecom.entity.UserRequest;
@@ -22,17 +22,18 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class AuthController {
 
 	@Autowired
-	private JwtUtils utils;
-	
+	private AuthenticationManager authenticationManager;
 	@Autowired
-	private AuthenticationManager authManager;
-	
+	private JwtUtils utils;
+
 	@PostMapping("/login")
-	@ResponseStatus(value = HttpStatus.OK)
 	public UserResponse login(@RequestBody UserRequest userRequest) {
-		authManager.authenticate(new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword()));
-		String token= utils.gernerateToken(userRequest.getUsername());
-		UserResponse response= UserResponse.builder().token(token).message("Success").status(HttpStatus.OK).build();
-		return  response;
+		Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword()));
+		String token = utils.gernerateToken(userRequest.getUsername());
+		System.out.println("Authentication " + authentication);
+		UserResponse response = UserResponse.builder().token(token).message("Success").status(HttpStatus.OK).build();
+		return response;
+
 	}
 }
