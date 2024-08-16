@@ -37,7 +37,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			Address address = addressDao.save(user.getAddress());
 			user.setAddress(address);
 		}
-		return userDao.save(user);
+		User savedUser=userDao.save(user);
+		return savedUser;
 	}
 
 	@Override

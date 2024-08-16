@@ -29,7 +29,8 @@ public class UserController {
 	@PostMapping("/create")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public User saveUser(@RequestBody User user) {
-		return userService.saveUser(user);
+		User savedUser=this.userService.saveUser(user);
+		return savedUser;
 	}
 
 	@GetMapping("/{id}")
