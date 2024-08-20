@@ -35,7 +35,6 @@ public class ProductController {
 	public ProductResponse addProduct(@RequestBody ProductRequest product) {
 
 		ProductResponse response = this.productService.addProduct(product);
-		System.out.println(response);
 		return response;
 	}
 
