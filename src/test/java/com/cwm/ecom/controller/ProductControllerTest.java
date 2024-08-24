@@ -1,13 +1,22 @@
 package com.cwm.ecom.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.BDDMockito;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.BDDMockito.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -72,10 +81,84 @@ public class ProductControllerTest {
 	
 	@Test
 	public void testAddProduct()  throws Exception{
-		BDDMockito.given(productService.addProduct(productRequest)).willReturn(productResponse);
+		given(productService.addProduct(productRequest)).willReturn(productResponse);
 		
 		ResultActions resultActions= mockMvc.perform(post(BASE_URL,productRequest).contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(productRequest)));
 		
 		resultActions.andDo(print());
 	}
+	
+	@Test
+	public void testGetProductById()  throws Exception{
+		Long productId=1L;
+		
+		given(productService.getProductById(anyLong())).willReturn(productResponse);
+		
+		
+		ResultActions resultActions= mockMvc.perform(post(BASE_URL+"/{id}",productId));
+		
+		resultActions.andDo(print());
+		
+	}
+	
+	@Test
+	public void testGetAllProduct() throws Exception {
+		List<ProductResponse> productResponses= new ArrayList<>();
+		productResponses.add(productResponse);
+		
+		given(productService.getAllProduct()).willReturn(productResponses);
+		
+		ResultActions resultActions= this.mockMvc.perform(get(BASE_URL));
+		resultActions.andDo(print()).andExpect(status().isOk());
+	}
+	
+	@Test
+	public void testDeleteProduct() throws Exception{
+		Long productId=1L;
+		
+		willDoNothing().given(productService).deleteProduct(anyLong());
+		
+		mockMvc.perform(delete(BASE_URL+"/{id}",productId)).andDo(print()).andExpect(status().isOk())
+		.andExpect(jsonPath("$", is("Deleted")));
+		
+		verify(productService, times(1)).deleteProduct(anyLong());
+
+	}
+	
+//	@Test
+//	public void testUpdteProduct() throws Exception {
+//		Long productId=1L;
+//		ProductResponse updatedProductResponse=ProductResponse.builder()
+//				.name("Crash Course in Python")
+//        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
+//        		.unitPrice(16.50)
+//        		.image("assets/images/products/books/book-luv2code-1000.png")
+//        		.unitsInStock(115)
+//        		.dateCreadted(new Date())
+//        		.lastUpdated(new Date())
+//        		.categeoryId(1L)
+//        		.sku("cwm")
+//        		.build();
+//		
+//		ProductRequest updatedProductRequest=ProductRequest.builder()
+//				.name("Crash Course in Python")
+//        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
+//        		.unitPrice(16.50)
+//        		.image("assets/images/products/books/book-luv2code-1000.png")
+//        		.unitsInStock(115)
+//        		.dateCreadted(new Date())
+//        		.lastUpdated(new Date())
+//        		.categeoryId(1L)
+//        		.sku("cwm")
+//        		.build();
+//		
+//		given(productService.updateProduct(anyLong(), any(ProductRequest.class))).willReturn(updatedProductResponse);
+//		
+//	ResultActions resultActions=	mockMvc.perform(put(BASE_URL+"/{id}",productId,updatedProductRequest).contentType(MediaType.APPLICATION_JSON).contentType(mapper.writeValueAsString(updatedProductRequest)));
+//		
+//		resultActions.andDo(print()).andExpect(status().isOk());
+//		
+//		
+//	}
+	
 }
