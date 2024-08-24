@@ -125,40 +125,46 @@ public class ProductControllerTest {
 
 	}
 	
-//	@Test
-//	public void testUpdteProduct() throws Exception {
-//		Long productId=1L;
-//		ProductResponse updatedProductResponse=ProductResponse.builder()
-//				.name("Crash Course in Python")
-//        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
-//        		.unitPrice(16.50)
-//        		.image("assets/images/products/books/book-luv2code-1000.png")
-//        		.unitsInStock(115)
-//        		.dateCreadted(new Date())
-//        		.lastUpdated(new Date())
-//        		.categeoryId(1L)
-//        		.sku("cwm")
-//        		.build();
-//		
-//		ProductRequest updatedProductRequest=ProductRequest.builder()
-//				.name("Crash Course in Python")
-//        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
-//        		.unitPrice(16.50)
-//        		.image("assets/images/products/books/book-luv2code-1000.png")
-//        		.unitsInStock(115)
-//        		.dateCreadted(new Date())
-//        		.lastUpdated(new Date())
-//        		.categeoryId(1L)
-//        		.sku("cwm")
-//        		.build();
-//		
-//		given(productService.updateProduct(anyLong(), any(ProductRequest.class))).willReturn(updatedProductResponse);
-//		
-//	ResultActions resultActions=	mockMvc.perform(put(BASE_URL+"/{id}",productId,updatedProductRequest).contentType(MediaType.APPLICATION_JSON).contentType(mapper.writeValueAsString(updatedProductRequest)));
-//		
-//		resultActions.andDo(print()).andExpect(status().isOk());
-//		
-//		
-//	}
+	@Test
+	public void testUpdteProduct() throws Exception {
+		// Given
+        Long productId = 1L;
+        ProductRequest productRequest = ProductRequest.builder()
+				.name("Crash Course in Python")
+        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
+        		.unitPrice(14.99)
+        		.image("assets/images/products/books/book-luv2code-1000.png")
+        		.unitsInStock(100)
+        		.dateCreadted(new Date())
+        		.lastUpdated(new Date())
+        		.categeoryId(1L)
+        		.sku("cwm")
+        		.build();
+        // Set fields on productRequest as needed
+
+        ProductResponse productResponse = ProductResponse.builder()
+				.name("Crash Course in Python")
+        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
+        		.unitPrice(14.99)
+        		.image("assets/images/products/books/book-luv2code-1000.png")
+        		.unitsInStock(100)
+        		.dateCreadted(new Date())
+        		.lastUpdated(new Date())
+        		.categeoryId(1L)
+        		.sku("cwm")
+        		.build();
+        // Set fields on productResponse as needed
+
+        when(productService.updateProduct(eq(productId), any(ProductRequest.class)))
+            .thenReturn(productResponse);
+
+        // When & Then
+        mockMvc.perform(put(BASE_URL+"/{id}", productId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(productRequest)))
+            .andExpect(status().isOk());
+   
+		
+	}
 	
 }
