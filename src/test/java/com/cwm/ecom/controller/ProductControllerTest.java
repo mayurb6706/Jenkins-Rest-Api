@@ -59,23 +59,25 @@ public class ProductControllerTest {
 				.name("Crash Course in Python")
         		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
         		.unitPrice(14.99)
-        		.image("assets/images/products/books/book-luv2code-1000.png")
+        		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
         		.unitsInStock(100)
         		.dateCreadted(new Date())
         		.lastUpdated(new Date())
-        		.categeoryId(1L)
+        		.active(true)
+        		.category(1L)
         		.sku("cwm")
         		.build();
 		
 		productResponse= new ProductResponse();
-		productResponse.setCategeoryId(1L);
+		productResponse.setCategory(1L);
 		productResponse.setName("Crash Course in Python");
 		productResponse.setDescription("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.");
 		productResponse.setUnitPrice(14.99);
-		productResponse.setImage("assets/images/products/books/book-luv2code-1000.png");
+		productResponse.setImageUrl("assets/images/products/books/book-luv2code-1000.png");
 		productResponse.setUnitsInStock(100);
 		productResponse.setDateCreadted(new Date());
 		productResponse.setLastUpdated(new Date());
+		productResponse.setActive(true);
 		productResponse.setSku("CWM");
 	}
 	
@@ -133,11 +135,11 @@ public class ProductControllerTest {
 				.name("Crash Course in Python")
         		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
         		.unitPrice(14.99)
-        		.image("assets/images/products/books/book-luv2code-1000.png")
+        		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
         		.unitsInStock(100)
         		.dateCreadted(new Date())
         		.lastUpdated(new Date())
-        		.categeoryId(1L)
+        		.category(1L)
         		.sku("cwm")
         		.build();
         // Set fields on productRequest as needed
@@ -146,11 +148,11 @@ public class ProductControllerTest {
 				.name("Crash Course in Python")
         		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
         		.unitPrice(14.99)
-        		.image("assets/images/products/books/book-luv2code-1000.png")
+        		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
         		.unitsInStock(100)
         		.dateCreadted(new Date())
         		.lastUpdated(new Date())
-        		.categeoryId(1L)
+        		.category(1L)
         		.sku("cwm")
         		.build();
         // Set fields on productResponse as needed

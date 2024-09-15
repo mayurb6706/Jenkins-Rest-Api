@@ -32,10 +32,10 @@ public class ProductServiceImpl implements ProductService {
 				.unitPrice(prod.getUnitPrice())
 				.unitsInStock(prod.getUnitsInStock())
 				.description(prod.getDescription())
-				.image(prod.getImage())
-				.dateCreadted(prod.getDateCreadted())
+				.imageUrl(prod.getImageUrl())
+				.dateCreadted(prod.getDateCreated())
 				.lastUpdated(prod.getLastUpdated())
-				.categeoryId(prod.getCategeoryId())
+				.category(prod.getCategory())
 				.build();
 		return response;
 	}
@@ -50,10 +50,10 @@ public class ProductServiceImpl implements ProductService {
 					.unitPrice(prod.getUnitPrice())
 					.unitsInStock(prod.getUnitsInStock())
 					.description(prod.getDescription())
-					.image(prod.getImage())
-					.dateCreadted(prod.getDateCreadted())
+					.imageUrl(prod.getImageUrl())
+					.dateCreadted(prod.getDateCreated())
 					.lastUpdated(prod.getLastUpdated())
-					.categeoryId(prod.getCategeoryId())
+					.category(prod.getCategory())
 					.build();
 			return response;
 		}).collect(Collectors.toList());
@@ -69,10 +69,10 @@ public class ProductServiceImpl implements ProductService {
 			.unitPrice(prod.getUnitPrice())
 			.unitsInStock(prod.getUnitsInStock())
 			.description(prod.getDescription())
-			.image(prod.getImage())
-			.dateCreadted(prod.getDateCreadted())
+			.imageUrl(prod.getImageUrl())
+			.dateCreadted(prod.getDateCreated())
 			.lastUpdated(prod.getLastUpdated())
-			.categeoryId(prod.getCategeoryId())
+			.category(prod.getCategory())
 			.build();
 	return response;
 	}
@@ -91,10 +91,10 @@ public class ProductServiceImpl implements ProductService {
 				.unitPrice(product.getUnitPrice())
 				.unitsInStock(product.getUnitsInStock())
 				.description(product.getDescription())
-				.image(product.getImage())
-				.dateCreadted(product.getDateCreadted())
+				.imageUrl(product.getImageUrl())
+				.dateCreadted(product.getDateCreated())
 				.lastUpdated(product.getLastUpdated())
-				.categeoryId(product.getCategeoryId())
+				.category(product.getCategory())
 				.build();
 	}
 

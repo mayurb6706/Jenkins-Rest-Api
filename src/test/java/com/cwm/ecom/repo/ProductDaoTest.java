@@ -27,21 +27,23 @@ public class ProductDaoTest {
         prod1 = Product.builder().name("Crash Course in Python")
         		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
         		.unitPrice(14.99)
-        		.image("assets/images/products/books/book-luv2code-1000.png")
+        		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
         		.unitsInStock(100)
-        		.dateCreadted(new Date())
+        		.active(true)
+        		.dateCreated(new Date())
         		.lastUpdated(new Date())
-        		.categeoryId(1L)
+        		.category(1L)
         		.sku("cwm")
         		.build();
         prod2 =  Product.builder().name("JavaScript Cookbook")
         		.description("Learn Javascript at your own pace. The author explains how the technology works in easy-to-understand language.")
         		.unitPrice(23.99)
-        		.image("assets/images/products/books/book-luv2code-1005.png")
+        		.imageUrl("assets/images/products/books/book-luv2code-1005.png")
         		.unitsInStock(100)
-        		.dateCreadted(new Date())
+        		.active(true)
+        		.dateCreated(new Date())
         		.lastUpdated(new Date())
-        		.categeoryId(1L)
+        		.category(1L)
         		.sku("cwm")
         		.build();
         
@@ -57,7 +59,7 @@ public class ProductDaoTest {
         assertThat(savedProduct.getDescription()).isEqualTo(prod1.getDescription());
         assertThat(savedProduct.getUnitsInStock()).isEqualTo(prod1.getUnitsInStock());
         assertThat(savedProduct.getSku()).isEqualTo(prod1.getSku());
-        assertThat(savedProduct.getCategeoryId()).isEqualTo(prod1.getCategeoryId());
+        assertThat(savedProduct.getCategory()).isEqualTo(prod1.getCategory());
     }
 
     @DisplayName("Repository find by id")
@@ -71,7 +73,7 @@ public class ProductDaoTest {
         assertThat(product.getDescription()).isEqualTo(prod1.getDescription());
         assertThat(product.getUnitsInStock()).isEqualTo(prod1.getUnitsInStock());
         assertThat(product.getSku()).isEqualTo(prod1.getSku());
-        assertThat(product.getCategeoryId()).isEqualTo(prod1.getCategeoryId());
+        assertThat(product.getCategory()).isEqualTo(prod1.getCategory());
     }
 
     @DisplayName("Repository find all")

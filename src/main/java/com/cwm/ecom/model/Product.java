@@ -15,7 +15,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name="product")
+@Table(name="products")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -31,12 +31,13 @@ public class Product {
 	private String name;
 	private Double unitPrice;
 	private int unitsInStock;
-	private String image;
-	private Date dateCreadted;
+	private String imageUrl;
+	private Date dateCreated;
 	private Date lastUpdated;
 	private String description;
+	private Boolean active;
 //	TODO: Create a category
-	private Long categeoryId;
+	private Long category;
 
 }
 

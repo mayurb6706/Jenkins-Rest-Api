@@ -4,17 +4,19 @@ server:
 spring:
   application:
     name: PRODUCT-SERVICE  
-
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: pgAdmin 
+  sql:
+    init:
+      mode: always
 spring.jpa:
   database: POSTGRESQL
   hibernate.ddl-auto: create-drop
   show-sql: true
 
-spring.datasource:
-  driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://localhost:5432/postgres
-  username: postgres
-  password: pgAdmin
 
 cwm:
   openapi:
@@ -26,6 +28,4 @@ app:
 logging:
   level:
     '[org.springframework.web, org.hibernate]': DEBUG  
-     
- 
      

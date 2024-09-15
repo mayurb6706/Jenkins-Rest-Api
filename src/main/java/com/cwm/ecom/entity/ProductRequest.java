@@ -21,10 +21,11 @@ public class ProductRequest {
 	private String name;
 	private Double unitPrice;
 	private int unitsInStock;
-	private String image;
+	private String imageUrl;
 	private Date dateCreadted;
 	private Date lastUpdated;
+	private Boolean active;
 	private String description;
 //	TODO: Create a category
-	private Long categeoryId;
+	private Long category;
 }

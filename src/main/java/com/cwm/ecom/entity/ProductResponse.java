@@ -21,10 +21,11 @@ public class ProductResponse {
 	private String name;
 	private Double unitPrice;
 	private int unitsInStock;
-	private String image;
+	private String imageUrl;
 	private Date dateCreadted;
 	private Date lastUpdated;
 	private String description;
+	private Boolean active;
 //	TODO: Create a category
-	private Long categeoryId;
+	private Long category;
 }
