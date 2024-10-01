@@ -23,9 +23,12 @@ public class ProductResponse {
 	private String name;
 	private Double unitPrice;
 	private int unitsInStock;
-	private String image;
+	private String imageUrl;
 	private Date dateCreadted;
 	private Date lastUpdated;
 	private String description;
 	private Category category;
+
+	private Boolean active;
+
 }

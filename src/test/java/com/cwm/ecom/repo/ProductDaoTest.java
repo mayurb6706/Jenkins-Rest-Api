@@ -1,4 +1,5 @@
 package com.cwm.ecom.repo;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Date;
@@ -19,35 +20,31 @@ import com.cwm.ecom.model.Product;
 @DataJpaTest
 public class ProductDaoTest {
 
-    @Autowired
-    private ProductDao repo;
+	@Autowired
+	private ProductDao repo;
 
-    @Autowired
-    private CategoryDao categoryDao;
-    private Product prod1, prod2;
-    
-    private Category category;
+	@Autowired
+	private CategoryDao categoryDao;
+	private Product prod1, prod2;
 
-    @BeforeEach
-    public void setup() {
-    	category = Category.builder()
-    			.id(1L)
-    			.name("Books")
-    			.build();
-        prod1 = Product.builder().name("Crash Course in Python")
-        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
-        		.unitPrice(14.99)
-        		.image("assets/images/products/books/book-luv2code-1000.png")
-        		.unitsInStock(100)
-        		.dateCreadted(new Date())
-        		.lastUpdated(new Date())
-        		.category(category)
-        		.sku("cwm")
-        		.build();
-        
-    }
+	private Category category;
 
-    @DisplayName("Repository Save product")
+	@BeforeEach
+	public void setup() {
+		category = Category.builder().id(1L).name("Books").build();
+		prod1 = Product.builder().name("Crash Course in Python").description(
+				"Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
+				.unitPrice(14.99).imageUrl("assets/images/products/books/book-luv2code-1000.png").unitsInStock(100)
+				.active(true).dateCreated(new Date()).lastUpdated(new Date()).category(category).sku("cwm")
+				.build();
+		prod2 = Product.builder().name("JavaScript Cookbook").description(
+				"Learn Javascript at your own pace. The author explains how the technology works in easy-to-understand language.")
+				.unitPrice(23.99).imageUrl("assets/images/products/books/book-luv2code-1005.png").unitsInStock(100)
+				.active(true).dateCreated(new Date()).lastUpdated(new Date()).category(category).sku("cwm").build();
+
+	}
+
+	@DisplayName("Repository Save product")
     @Test
     public void testSaveEntity() {
     	Category cat= categoryDao.save(category);
@@ -60,9 +57,10 @@ public class ProductDaoTest {
         assertThat(savedProduct.getUnitsInStock()).isEqualTo(prod1.getUnitsInStock());
         assertThat(savedProduct.getSku()).isEqualTo(prod1.getSku());
         assertThat(savedProduct.getCategory().getName()).isEqualTo(prod1.getCategory().getName());
+
     }
 
-    @DisplayName("Repository find by id")
+	@DisplayName("Repository find by id")
     @Test
     public void testFindById() {
         repo.save(prod1);
@@ -73,44 +71,45 @@ public class ProductDaoTest {
         assertThat(product.getDescription()).isEqualTo(prod1.getDescription());
         assertThat(product.getUnitsInStock()).isEqualTo(prod1.getUnitsInStock());
         assertThat(product.getSku()).isEqualTo(prod1.getSku());
-        
+
+        assertThat(product.getCategory().getName()).isEqualTo(prod1.getCategory().getName());
     }
 
-    @DisplayName("Repository find all")
-    @Test
-    public void testFindAll() {
-    	categoryDao.save(category);
-    	prod1.setCategory(category);
-        repo.save(prod1);
-        List<Product> products = repo.findAll();
-        assertThat(products).hasSize(1);
-        assertThat(products.get(0).getName()).isEqualTo("Crash Course in Python");
-    }
+	@DisplayName("Repository find all")
+	@Test
+	public void testFindAll() {
+		categoryDao.save(category);
+		prod1.setCategory(category);
+		repo.save(prod1);
+		List<Product> products = repo.findAll();
+		assertThat(products).hasSize(1);
+		assertThat(products.get(0).getName()).isEqualTo("Crash Course in Python");
+	}
 
-    @DisplayName("Repository delete by id")
-    @Test
-    public void testDeleteById() {
-    	
-        repo.save(prod1);
+	@DisplayName("Repository delete by id")
+	@Test
+	public void testDeleteById() {
 
-        repo.deleteById(prod1.getId());
+		repo.save(prod1);
 
-        Optional<Product> productFromDB = repo.findById(prod1.getId());
-        assertThat(productFromDB).isEmpty();
-    }
+		repo.deleteById(prod1.getId());
 
-    @DisplayName("Repository update product")
-    @Test
-    public void testUpdateEntity() {
-        repo.save(prod1);
-        Product product = repo.findById(prod1.getId()).orElseThrow();
-        product.setUnitPrice(17.29);
-        product.setUnitsInStock(115);
-        repo.save(product);
+		Optional<Product> productFromDB = repo.findById(prod1.getId());
+		assertThat(productFromDB).isEmpty();
+	}
 
-        Product updatedProduct = repo.findById(prod1.getId()).orElseThrow();
+	@DisplayName("Repository update product")
+	@Test
+	public void testUpdateEntity() {
+		repo.save(prod1);
+		Product product = repo.findById(prod1.getId()).orElseThrow();
+		product.setUnitPrice(17.29);
+		product.setUnitsInStock(115);
+		repo.save(product);
 
-        assertThat(updatedProduct.getUnitsInStock()).isEqualTo(115);
-        assertThat(updatedProduct.getUnitPrice()).isEqualTo(17.29);
-    }
+		Product updatedProduct = repo.findById(prod1.getId()).orElseThrow();
+
+		assertThat(updatedProduct.getUnitsInStock()).isEqualTo(115);
+		assertThat(updatedProduct.getUnitPrice()).isEqualTo(17.29);
+	}
 }

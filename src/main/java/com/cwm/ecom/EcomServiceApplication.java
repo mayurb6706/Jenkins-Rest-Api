@@ -10,26 +10,25 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.cwm.ecom.utils.JwtUtils;
 
 @SpringBootApplication
-public class EcomServiceApplication  extends SpringBootServletInitializer{
+public class EcomServiceApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EcomServiceApplication.class, args);
 	}
 
-	 @Override
-	    protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-	        return builder.sources(EcomServiceApplication.class);
-	    }
-	  
-	 
-	 @Bean
-	 public BCryptPasswordEncoder passwordEncoder() {
-		 return new BCryptPasswordEncoder();
-	 }
-	 
-	 @Bean
-	    public JwtUtils jwtUtils() {
-	        return new JwtUtils();
-	    }
-}
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(EcomServiceApplication.class);
+	}
 
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
+
+	@Bean
+	public JwtUtils jwtUtils() {
+		return new JwtUtils();
+	}
+
+}

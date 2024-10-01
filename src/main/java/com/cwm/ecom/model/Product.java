@@ -33,12 +33,16 @@ public class Product {
 	private String name;
 	private Double unitPrice;
 	private int unitsInStock;
-	private String image;
-	private Date dateCreadted;
+	private String imageUrl;
+	private Date dateCreated;
 	private Date lastUpdated;
 	private String description;
+
 	@ManyToOne
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
+
+	private Boolean active;
+
 
 }

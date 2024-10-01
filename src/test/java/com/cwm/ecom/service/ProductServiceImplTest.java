@@ -53,9 +53,10 @@ public class ProductServiceImplTest {
         product = Product.builder().name("Crash Course in Python")
         		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
         		.unitPrice(14.99)
-        		.image("assets/images/products/books/book-luv2code-1000.png")
+        		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
         		.unitsInStock(100)
-        		.dateCreadted(new Date())
+        		.active(true)
+        		.dateCreated(new Date())
         		.lastUpdated(new Date())
         		.category(category)
         		.sku("cwm")
@@ -65,7 +66,8 @@ public class ProductServiceImplTest {
         productRequest.setName("Crash Course in Python");
         productRequest.setUnitPrice(14.99);
         productRequest.setUnitsInStock(100);
-        productRequest.setImage("assets/images/products/books/book-luv2code-1000.png");
+        productRequest.setImageUrl("assets/images/products/books/book-luv2code-1000.png");
+        productRequest.setCategory(category);
         productRequest.setCategory(category);
         productRequest.setSku("cwm");
         productRequest.setLastUpdated(new Date());
@@ -79,10 +81,11 @@ public class ProductServiceImplTest {
         ProductResponse response = productService.addProduct(productRequest);
 
         assertThat(response).isNotNull();
+        System.out.println();
         assertThat(response.getName()).isEqualTo("Crash Course in Python");
         assertThat(response.getUnitPrice()).isEqualTo(14.99);
         assertThat(response.getUnitsInStock()).isEqualTo(100);
-        assertThat(response.getImage()).isEqualTo("assets/images/products/books/book-luv2code-1000.png");
+        assertThat(response.getImageUrl()).isEqualTo("assets/images/products/books/book-luv2code-1000.png");
         assertThat(response.getSku()).isEqualTo("cwm");
         verify(productDao, times(1)).save(any(Product.class));
     }
@@ -110,8 +113,8 @@ public class ProductServiceImplTest {
         assertThat(response.getName()).isEqualTo("Crash Course in Python");
         assertThat(response.getUnitPrice()).isEqualTo(14.99);
         assertThat(response.getUnitsInStock()).isEqualTo(100);
-        assertThat(response.getImage()).isEqualTo("assets/images/products/books/book-luv2code-1000.png");
-        assertThat(response.getSku()).isEqualTo("cwm");
+        assertThat(response.getImageUrl()).isEqualTo("assets/images/products/books/book-luv2code-1000.png");
+         assertThat(response.getSku()).isEqualTo("cwm");
         verify(productDao, times(1)).findById(anyLong());
     }
 
@@ -133,12 +136,13 @@ public class ProductServiceImplTest {
     			.name("Crash Course in Python2")
         		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
         		.unitPrice(17.35)
-        		.image("assets/images/products/books/book-luv2code-1001.png")
+        		.imageUrl("assets/images/products/books/book-luv2code-1001.png")
         		.unitsInStock(115)
         		.dateCreadted(new Date())
         		.lastUpdated(new Date())
         		.category(category)
         		.sku("cwm")
+        		.active(true)
         		.build();
     	when(productDao.findById(anyLong())).thenReturn(Optional.of(product));
     	when(productDao.save(any(Product.class))).thenReturn(product);
@@ -151,7 +155,7 @@ public class ProductServiceImplTest {
          assertThat(response.getName()).isEqualTo("Crash Course in Python2");
          assertThat(response.getUnitPrice()).isEqualTo(17.35);
          assertThat(response.getUnitsInStock()).isEqualTo(115);
-         assertThat(response.getImage()).isEqualTo("assets/images/products/books/book-luv2code-1001.png");
+         assertThat(response.getImageUrl()).isEqualTo("assets/images/products/books/book-luv2code-1001.png");
          assertThat(response.getSku()).isEqualTo("cwm");
          verify(productDao, times(1)).findById(anyLong());
          verify(productDao, times(1)).save(any(Product.class));
