@@ -23,6 +23,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public ProductResponse addProduct(ProductRequest product) {
+		
 		Product prod= new Product();
 		BeanUtils.copyProperties(product, prod);
 		prodDao.save(prod);
@@ -35,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 				.image(prod.getImage())
 				.dateCreadted(prod.getDateCreadted())
 				.lastUpdated(prod.getLastUpdated())
-				.categeoryId(prod.getCategeoryId())
+				.category(prod.getCategory())
 				.build();
 		return response;
 	}
@@ -53,7 +54,7 @@ public class ProductServiceImpl implements ProductService {
 					.image(prod.getImage())
 					.dateCreadted(prod.getDateCreadted())
 					.lastUpdated(prod.getLastUpdated())
-					.categeoryId(prod.getCategeoryId())
+					.category(prod.getCategory())
 					.build();
 			return response;
 		}).collect(Collectors.toList());
@@ -72,7 +73,7 @@ public class ProductServiceImpl implements ProductService {
 			.image(prod.getImage())
 			.dateCreadted(prod.getDateCreadted())
 			.lastUpdated(prod.getLastUpdated())
-			.categeoryId(prod.getCategeoryId())
+			.category(prod.getCategory())
 			.build();
 	return response;
 	}
@@ -94,7 +95,7 @@ public class ProductServiceImpl implements ProductService {
 				.image(product.getImage())
 				.dateCreadted(product.getDateCreadted())
 				.lastUpdated(product.getLastUpdated())
-				.categeoryId(product.getCategeoryId())
+				.category(product.getCategory())
 				.build();
 	}
 

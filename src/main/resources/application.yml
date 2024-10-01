@@ -5,27 +5,26 @@ spring:
   application:
     name: PRODUCT-SERVICE  
 
-spring.jpa:
-  database: POSTGRESQL
-  hibernate.ddl-auto: create-drop
-  show-sql: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: pgAdmin
 
-spring.datasource:
-  driverClassName: org.postgresql.Driver
-  url: jdbc:postgresql://localhost:5432/postgres
-  username: postgres
-  password: pgAdmin
+  jpa:
+    database: POSTGRESQL
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
 cwm:
   openapi:
-     dev-url: http://localhost:7171
-     
+    dev-url: http://localhost:7171
+
 app:   
   secret: mayurb
 
 logging:
   level:
-    '[org.springframework.web, org.hibernate]': DEBUG  
-     
- 
-     
+    org.springframework.web: DEBUG  
+    org.hibernate: DEBUG

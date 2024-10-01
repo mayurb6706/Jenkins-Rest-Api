@@ -19,49 +19,45 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.cwm.ecom.entity.ProductRequest;
 import com.cwm.ecom.entity.ProductResponse;
+import com.cwm.ecom.model.Category;
 import com.cwm.ecom.service.impl.ProductServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 //@WebMvcTest(ProductController.class)
 public class ProductControllerTest {
 
-	private static final String BASE_URL="/api/product";
+	private static final String BASE_URL = "/api/product";
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@Autowired
-	ObjectMapper mapper=new ObjectMapper();
-	
+	ObjectMapper mapper = new ObjectMapper();
+
 	ProductResponse productResponse;
 	ProductRequest productRequest;
-	
+	Category category;
+
 	@Mock
 	private ProductServiceImpl productService;
-	
+
 	@InjectMocks
 	private ProductController productController;
-	
+
 	@BeforeEach
 	public void init() {
 		MockitoAnnotations.openMocks(this);
 		mockMvc = MockMvcBuilders.standaloneSetup(productController).build();
+		category = Category.builder().id(1L).name("Books").build();
+		 productRequest = ProductRequest.builder().name("Crash Course in Python").description(
+				"Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
+				.unitPrice(14.99).image("assets/images/products/books/book-luv2code-1000.png").unitsInStock(100)
+				.dateCreadted(new Date()).lastUpdated(new Date()).category(category).sku("cwm").build();
 
-		productRequest=ProductRequest.builder()
-				.name("Crash Course in Python")
-        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
-        		.unitPrice(14.99)
-        		.image("assets/images/products/books/book-luv2code-1000.png")
-        		.unitsInStock(100)
-        		.dateCreadted(new Date())
-        		.lastUpdated(new Date())
-        		.categeoryId(1L)
-        		.sku("cwm")
-        		.build();
-		
-		productResponse= new ProductResponse();
-		productResponse.setCategeoryId(1L);
+		productResponse = new ProductResponse();
+		productResponse.setCategory(category);
 		productResponse.setName("Crash Course in Python");
-		productResponse.setDescription("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.");
+		productResponse.setDescription(
+				"Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.");
 		productResponse.setUnitPrice(14.99);
 		productResponse.setImage("assets/images/products/books/book-luv2code-1000.png");
 		productResponse.setUnitsInStock(100);
@@ -69,13 +65,14 @@ public class ProductControllerTest {
 		productResponse.setLastUpdated(new Date());
 		productResponse.setSku("CWM");
 	}
-	
+
 	@Test
-	public void testAddProduct()  throws Exception{
+	public void testAddProduct() throws Exception {
 		BDDMockito.given(productService.addProduct(productRequest)).willReturn(productResponse);
-		
-		ResultActions resultActions= mockMvc.perform(post(BASE_URL,productRequest).contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(productRequest)));
-		
+
+		ResultActions resultActions = mockMvc.perform(post(BASE_URL, productRequest)
+				.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(productRequest)));
+
 		resultActions.andDo(print());
 	}
 }

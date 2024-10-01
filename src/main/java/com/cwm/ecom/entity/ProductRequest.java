@@ -2,6 +2,8 @@ package com.cwm.ecom.entity;
 
 import java.util.Date;
 
+import com.cwm.ecom.model.Category;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,5 +28,5 @@ public class ProductRequest {
 	private Date lastUpdated;
 	private String description;
 //	TODO: Create a category
-	private Long categeoryId;
+	private Category category;
 }

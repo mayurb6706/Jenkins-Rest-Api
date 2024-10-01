@@ -27,6 +27,7 @@ import com.cwm.ecom.dao.ProductDao;
 import com.cwm.ecom.entity.ProductRequest;
 import com.cwm.ecom.entity.ProductResponse;
 import com.cwm.ecom.exception.ProductNotFoundException;
+import com.cwm.ecom.model.Category;
 import com.cwm.ecom.model.Product;
 import com.cwm.ecom.service.impl.ProductServiceImpl;
 
@@ -41,9 +42,14 @@ public class ProductServiceImplTest {
 
     private Product product;
     private ProductRequest productRequest;
+    private Category category;
 
     @BeforeEach
     public void setup() {
+    	category = Category.builder()
+    			.id(1L)
+    			.name("Books")
+    			.build();
         product = Product.builder().name("Crash Course in Python")
         		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
         		.unitPrice(14.99)
@@ -51,7 +57,7 @@ public class ProductServiceImplTest {
         		.unitsInStock(100)
         		.dateCreadted(new Date())
         		.lastUpdated(new Date())
-        		.categeoryId(1L)
+        		.category(category)
         		.sku("cwm")
         		.build();
 
@@ -60,7 +66,7 @@ public class ProductServiceImplTest {
         productRequest.setUnitPrice(14.99);
         productRequest.setUnitsInStock(100);
         productRequest.setImage("assets/images/products/books/book-luv2code-1000.png");
-        productRequest.setCategeoryId(1L);
+        productRequest.setCategory(category);
         productRequest.setSku("cwm");
         productRequest.setLastUpdated(new Date());
         productRequest.setDateCreadted(new Date());
@@ -131,7 +137,7 @@ public class ProductServiceImplTest {
         		.unitsInStock(115)
         		.dateCreadted(new Date())
         		.lastUpdated(new Date())
-        		.categeoryId(1L)
+        		.category(category)
         		.sku("cwm")
         		.build();
     	when(productDao.findById(anyLong())).thenReturn(Optional.of(product));
