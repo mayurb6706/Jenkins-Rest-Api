@@ -29,7 +29,6 @@ public class ProductController {
 	@Autowired
 	private ProductServiceImpl productService;
 
-	// add new product
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ProductResponse addProduct(@RequestBody ProductRequest product) {

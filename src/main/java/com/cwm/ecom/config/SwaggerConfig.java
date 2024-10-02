@@ -44,8 +44,6 @@ public class SwaggerConfig {
 				.description("This API exposes endpoints to manage .product rest api")
 				.termsOfService("https://www.codewithmayur.com/terms")
 				.license(ecomLicens);
-
-//    return new OpenAPI().info(info).servers(List.of(devServer));
 		return new OpenAPI().addSecurityItem(new SecurityRequirement().addList("Authentication"))
 				.components(new Components().addSecuritySchemes("Authentication", createAPIKeyScheme())).info(info);
 	}

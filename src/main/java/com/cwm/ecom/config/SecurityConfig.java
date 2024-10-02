@@ -19,40 +19,44 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.cwm.ecom.filter.SecurityFilter;
 import com.cwm.ecom.service.impl.UserServiceImpl;
 
+
 @EnableWebSecurity
 @EnableMethodSecurity
 @Configuration
 public class SecurityConfig {
 
-	@Autowired
-	private UserServiceImpl userService;
+	private final UserServiceImpl userService;
+
+	private final BCryptPasswordEncoder passwordEncoder;
+
+	private final InvalidAuthenticationEntry authEntry;
+
+	private final SecurityFilter sf;
 
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-
-	@Autowired
-	private InvalidAuthenticationEntry authEntry;
-
-	@Autowired
-	private SecurityFilter sf;
+	public SecurityConfig(UserServiceImpl impl, BCryptPasswordEncoder passwordEncoder,
+			InvalidAuthenticationEntry authenticationEntry, SecurityFilter filter) {
+		this.userService = impl;
+		this.passwordEncoder = passwordEncoder;
+		this.authEntry = authenticationEntry;
+		this.sf = filter;
+	}
 
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
-		  auth.inMemoryAuthentication()
-          .withUser("user").password("password").roles("USER");
+		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
 	}
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		return http.csrf().disable().authorizeHttpRequests()
 				.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/api/auth/login",
-						"/api/user/create","/api/category/**")
+						"/api/user/create", "/api/category/**")
 				.permitAll().anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(authEntry)
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(sf, UsernamePasswordAuthenticationFilter.class).build();
 	}
-
 
 	@Bean
 	public AuthenticationProvider authenticationProvider() {

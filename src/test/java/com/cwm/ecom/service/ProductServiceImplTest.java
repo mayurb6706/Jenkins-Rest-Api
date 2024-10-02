@@ -179,7 +179,6 @@ public class ProductServiceImplTest {
     	
     	Long productId= 1L;
     	when(productDao.findById(anyLong())).thenReturn(Optional.empty());
-//    	ProductNotFoundException exception = new ProductNotFoundException("Product not found.");
  
     	 Exception exception = assertThrows(ProductNotFoundException.class, () -> {
              productService.deleteProduct(productId);
