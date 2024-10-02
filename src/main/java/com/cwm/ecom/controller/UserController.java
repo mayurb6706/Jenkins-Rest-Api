@@ -23,9 +23,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "User Api")
 public class UserController {
 	
-	@Autowired
-	private UserServiceImpl userService;
+	
+	private final UserServiceImpl userService;
 
+	@Autowired
+	public UserController(UserServiceImpl userImpl) {
+		this.userService=userImpl;
+	}
 	@PostMapping("/create")
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public User saveUser(@RequestBody User user) {

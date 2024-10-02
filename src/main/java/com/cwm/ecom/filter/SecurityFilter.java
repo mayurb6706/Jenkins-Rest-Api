@@ -21,11 +21,15 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class SecurityFilter extends OncePerRequestFilter {
-	@Autowired
-	private JwtUtils util;
-	@Autowired
-	private UserDetailsService serviceImpl;
+	
+	private final JwtUtils util;
+	
+	private final UserDetailsService serviceImpl;
 
+	public SecurityFilter(JwtUtils utils, UserDetailsService service) {
+		this.util=utils;
+		this.serviceImpl=service;
+	}
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {

@@ -26,9 +26,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Product Api", description = "Product  APIs")
 public class ProductController {
 
-	@Autowired
-	private ProductServiceImpl productService;
+	
+	private final ProductServiceImpl productService;
 
+	@Autowired
+	public ProductController(ProductServiceImpl impl) {
+		this.productService=impl;
+	}
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public ProductResponse addProduct(@RequestBody ProductRequest product) {

@@ -12,9 +12,13 @@ import com.cwm.ecom.service.CategoryService;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-	@Autowired
-	private CategoryDao categoryDao;
 	
+	private final CategoryDao categoryDao;
+	
+	@Autowired
+	public CategoryServiceImpl(CategoryDao dao) {
+		this.categoryDao=dao;
+	}
 	
 	@Override
 	public Category addCategory(Category category) {

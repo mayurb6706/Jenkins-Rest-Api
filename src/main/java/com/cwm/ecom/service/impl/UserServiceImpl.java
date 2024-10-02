@@ -21,14 +21,20 @@ import com.cwm.ecom.service.UserService;
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-	@Autowired
-	private UserDao userDao;
+	
+	private final UserDao userDao;
 
-	@Autowired
-	private AddressDao addressDao;
+	
+	private final AddressDao addressDao;
 
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	
+	private final BCryptPasswordEncoder passwordEncoder;
+	
+	public UserServiceImpl(UserDao userDao, AddressDao addressDao, BCryptPasswordEncoder encoder) {
+		this.userDao=userDao;
+		this.addressDao= addressDao;
+		this.passwordEncoder=encoder;
+	}
 
 	@Override
 	public User saveUser(User user) {

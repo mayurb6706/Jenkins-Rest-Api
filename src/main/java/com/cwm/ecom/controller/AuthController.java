@@ -21,10 +21,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Login Api", description = "User login api to generate user auth token.")
 public class AuthController {
 
+	
+	private final AuthenticationManager authenticationManager;
+	
+	private final JwtUtils utils;
+	
 	@Autowired
-	private AuthenticationManager authenticationManager;
-	@Autowired
-	private JwtUtils utils;
+	public AuthController(AuthenticationManager manager, JwtUtils utils) {
+		this.authenticationManager=manager;
+		this.utils= utils;
+	}
 
 	@PostMapping("/login")
 	public UserResponse login(@RequestBody UserRequest userRequest) {

@@ -16,9 +16,12 @@ import com.cwm.ecom.service.impl.CategoryServiceImpl;
 @RequestMapping("/api/category")
 public class CategoryController {
 
-	@Autowired
-	private CategoryServiceImpl serviceImpl;
+	private final CategoryServiceImpl serviceImpl;
 	
+	@Autowired
+	public CategoryController(CategoryServiceImpl categoryServiceImpl) {
+		this.serviceImpl=categoryServiceImpl;
+	}
 	@PostMapping("/add")
 	public Category addCategory(@RequestBody Category category) {
 		Category cat= this.serviceImpl.addCategory(category);

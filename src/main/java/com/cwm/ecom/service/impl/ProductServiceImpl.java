@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cwm.ecom.dao.ProductDao;
@@ -16,11 +17,14 @@ import com.cwm.ecom.service.ProductService;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
-	private ProductDao prodDao;
+	private final ProductDao prodDao;
 	
+	@Autowired
+	public ProductServiceImpl(ProductDao dao) {
+		this.prodDao=dao;
+	}
 	@Override
 	public ProductResponse addProduct(ProductRequest product) {
 		
