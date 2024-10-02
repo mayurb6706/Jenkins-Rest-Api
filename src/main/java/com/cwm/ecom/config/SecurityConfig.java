@@ -19,57 +19,56 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.cwm.ecom.filter.SecurityFilter;
 import com.cwm.ecom.service.impl.UserServiceImpl;
 
-
 @EnableWebSecurity
 @EnableMethodSecurity
 @Configuration
 public class SecurityConfig {
 
-	private final UserServiceImpl userService;
+    private final UserServiceImpl userService;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final InvalidAuthenticationEntry authEntry;
+    private final SecurityFilter sf;
 
-	private final BCryptPasswordEncoder passwordEncoder;
+    @Autowired
+    public SecurityConfig(UserServiceImpl userService, 
+                          BCryptPasswordEncoder passwordEncoder,
+                          InvalidAuthenticationEntry authEntry, 
+                          SecurityFilter sf) {
+        this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+        this.authEntry = authEntry;
+        this.sf = sf;
+    }
 
-	private final InvalidAuthenticationEntry authEntry;
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf().disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", 
+                                 "/api/auth/login", "/api/user/create", "/api/category/**")
+                .permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .exceptionHandling().authenticationEntryPoint(authEntry)
+                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .addFilterBefore(sf, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
 
-	private final SecurityFilter sf;
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
+        authenticationProvider.setUserDetailsService(userService);
+        authenticationProvider.setPasswordEncoder(passwordEncoder);
+        return authenticationProvider;
+    }
 
-	@Autowired
-	public SecurityConfig(UserServiceImpl impl, BCryptPasswordEncoder passwordEncoder,
-			InvalidAuthenticationEntry authenticationEntry, SecurityFilter filter) {
-		this.userService = impl;
-		this.passwordEncoder = passwordEncoder;
-		this.authEntry = authenticationEntry;
-		this.sf = filter;
-	}
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
 
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
-		auth.inMemoryAuthentication().withUser("user").password("password").roles("USER");
-	}
-
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf().disable().authorizeHttpRequests()
-				.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-resources/**", "/api/auth/login",
-						"/api/user/create", "/api/category/**")
-				.permitAll().anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(authEntry)
-				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-				.authenticationProvider(authenticationProvider())
-				.addFilterBefore(sf, UsernamePasswordAuthenticationFilter.class).build();
-	}
-
-	@Bean
-	public AuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-		authenticationProvider.setUserDetailsService(userService);
-		authenticationProvider.setPasswordEncoder(passwordEncoder);
-		return authenticationProvider;
-
-	}
-
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
-		return config.getAuthenticationManager();
-	}
 
 }
