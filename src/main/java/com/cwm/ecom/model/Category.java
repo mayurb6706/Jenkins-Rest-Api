@@ -24,12 +24,11 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-@Table
+@Table(name="category")
 @Builder
 public class Category {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;

@@ -9,20 +9,15 @@ spring:
     url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
     password: pgAdmin
-
   jpa:
     database: POSTGRESQL
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
     show-sql: true
   sql:
     init:
-      mode: always
-spring.jpa:
-  database: POSTGRESQL
-  hibernate.ddl-auto: create-drop
-  show-sql: true
-
+      mode: ALWAYS
+  
 
 cwm:
   openapi:
@@ -31,7 +26,3 @@ cwm:
 app:   
   secret: mayurb
 
-#logging:
-#  level:
-#    org.springframework.web: DEBUG  
-#    org.hibernate: DEBUG
