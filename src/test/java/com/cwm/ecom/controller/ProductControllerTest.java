@@ -62,7 +62,7 @@ public class ProductControllerTest {
 		 productRequest = ProductRequest.builder().name("Crash Course in Python").description(
 				"Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
 				.unitPrice(14.99).imageUrl("assets/images/products/books/book-luv2code-1000.png").unitsInStock(100)
-				.dateCreadted(new Date()).lastUpdated(new Date()).category(category).sku("cwm").build();
+				.dateCreadted(new Date()).category(category).sku("cwm").build();
 
 		productResponse = new ProductResponse();
 		productResponse.setCategory(category);
@@ -73,7 +73,6 @@ public class ProductControllerTest {
         		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
         		.unitsInStock(100)
         		.dateCreadted(new Date())
-        		.lastUpdated(new Date())
         		.active(true)
         		.category(category)
         		.sku("cwm")
@@ -88,7 +87,6 @@ public class ProductControllerTest {
 		productResponse.setImageUrl("assets/images/products/books/book-luv2code-1000.png");
 		productResponse.setUnitsInStock(100);
 		productResponse.setDateCreadted(new Date());
-		productResponse.setLastUpdated(new Date());
 		productResponse.setActive(true);
 		productResponse.setSku("CWM");
 	}
@@ -149,7 +147,6 @@ public class ProductControllerTest {
         		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
         		.unitsInStock(100)
         		.dateCreadted(new Date())
-        		.lastUpdated(new Date())
         		.category(category)
         		.sku("cwm")
         		.build();
@@ -162,7 +159,6 @@ public class ProductControllerTest {
         		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
         		.unitsInStock(100)
         		.dateCreadted(new Date())
-        		.lastUpdated(new Date())
         		.category(category)
         		.sku("cwm")
         		.build();

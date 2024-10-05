@@ -1,10 +1,12 @@
 package com.cwm.ecom.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -12,39 +14,45 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.cwm.ecom.dao.AddressDao;
+import com.cwm.ecom.dao.RoleDao;
 import com.cwm.ecom.dao.UserDao;
-import com.cwm.ecom.model.Address;
 import com.cwm.ecom.model.User;
+import com.cwm.ecom.model.UserRole;
 import com.cwm.ecom.service.UserService;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
 
-	
 	private final UserDao userDao;
 
-	
-	private final AddressDao addressDao;
+	private final RoleDao roleDao;
 
-	
-	private final BCryptPasswordEncoder passwordEncoder;
-	
-	public UserServiceImpl(UserDao userDao, AddressDao addressDao, BCryptPasswordEncoder encoder) {
-		this.userDao=userDao;
-		this.addressDao= addressDao;
-		this.passwordEncoder=encoder;
+	public UserServiceImpl(UserDao userDao, RoleDao roleDao) {
+		this.userDao = userDao;
+		this.roleDao = roleDao;
 	}
 
 	@Override
-	public User saveUser(User user) {
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		if (user.getAddress() != null) {
-			Address address = addressDao.save(user.getAddress());
-			user.setAddress(address);
+	public User saveUser(User user, Set<UserRole> userRole) throws Exception {
+		Optional<User> existingUser = this.findByUsername(user.getUsername());
+		if (existingUser == null && existingUser.isPresent()) {
+			System.out.println(existingUser);
+			throw new Exception("User already Exist!");
+		} else {
+			for (UserRole role : userRole) {
+				System.out.println("User roles" + role.toString());
+				roleDao.save(role.getRole());
+				
+			}
+			if (user.getUserRoles() == null) {
+		        user.setUserRoles(new HashSet<>());
+		    }
+		    user.getUserRoles().addAll(userRole);
+
 		}
-		User savedUser=userDao.save(user);
-		return savedUser;
+		userDao.save(user);
+		return user;
+
 	}
 
 	@Override
@@ -67,14 +75,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = new User();
-		Optional<User> optionalUser = this.userDao.findByUsername(username);
-		if (!optionalUser.isEmpty()) {
-			user = optionalUser.get();
-			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
-					user.getRole().stream().map(role -> new SimpleGrantedAuthority(role)).collect(Collectors.toSet()));
-		} else
-			throw new UsernameNotFoundException("User not found.");
 
+		Optional<User> optionalUser = this.userDao.findByUsername(username);
+		if (optionalUser.isPresent()) {
+			User user = optionalUser.get();
+
+			Set<GrantedAuthority> authorities = user.getUserRoles().stream()
+					.map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getName()))
+					.collect(Collectors.toSet());
+
+			return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
+					authorities);
+		} else {
+			throw new UsernameNotFoundException("User not found.");
+		}
 	}
 }

@@ -25,7 +25,6 @@ public class ProductRequest {
 	private int unitsInStock;
 	private String imageUrl;
 	private Date dateCreadted;
-	private Date lastUpdated;
 	private Boolean active;
 	private String description;
 

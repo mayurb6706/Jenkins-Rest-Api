@@ -57,7 +57,6 @@ public class ProductServiceImplTest {
         		.unitsInStock(100)
         		.active(true)
         		.dateCreated(new Date())
-        		.lastUpdated(new Date())
         		.category(category)
         		.sku("cwm")
         		.build();
@@ -70,7 +69,6 @@ public class ProductServiceImplTest {
         productRequest.setCategory(category);
         productRequest.setCategory(category);
         productRequest.setSku("cwm");
-        productRequest.setLastUpdated(new Date());
         productRequest.setDateCreadted(new Date());
     }
 
@@ -139,7 +137,6 @@ public class ProductServiceImplTest {
         		.imageUrl("assets/images/products/books/book-luv2code-1001.png")
         		.unitsInStock(115)
         		.dateCreadted(new Date())
-        		.lastUpdated(new Date())
         		.category(category)
         		.sku("cwm")
         		.active(true)

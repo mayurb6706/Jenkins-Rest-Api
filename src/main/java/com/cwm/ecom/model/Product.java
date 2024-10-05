@@ -35,7 +35,6 @@ public class Product {
 	private int unitsInStock;
 	private String imageUrl;
 	private Date dateCreated;
-	private Date lastUpdated;
 	private String description;
 
 	@ManyToOne

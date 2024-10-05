@@ -35,12 +35,12 @@ public class ProductDaoTest {
 		prod1 = Product.builder().name("Crash Course in Python").description(
 				"Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
 				.unitPrice(14.99).imageUrl("assets/images/products/books/book-luv2code-1000.png").unitsInStock(100)
-				.active(true).dateCreated(new Date()).lastUpdated(new Date()).category(category).sku("cwm")
+				.active(true).dateCreated(new Date()).category(category).sku("cwm")
 				.build();
 		prod2 = Product.builder().name("JavaScript Cookbook").description(
 				"Learn Javascript at your own pace. The author explains how the technology works in easy-to-understand language.")
 				.unitPrice(23.99).imageUrl("assets/images/products/books/book-luv2code-1005.png").unitsInStock(100)
-				.active(true).dateCreated(new Date()).lastUpdated(new Date()).category(category).sku("cwm").build();
+				.active(true).dateCreated(new Date()).category(category).sku("cwm").build();
 
 	}
 

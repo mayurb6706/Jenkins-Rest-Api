@@ -1,5 +1,6 @@
 package com.cwm.ecom;
 
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -10,7 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.cwm.ecom.utils.JwtUtils;
 
 @SpringBootApplication
-public class EcomServiceApplication extends SpringBootServletInitializer {
+public class EcomServiceApplication extends SpringBootServletInitializer implements CommandLineRunner {
+
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(EcomServiceApplication.class, args);
@@ -29,6 +32,11 @@ public class EcomServiceApplication extends SpringBootServletInitializer {
 	@Bean
 	public JwtUtils jwtUtils() {
 		return new JwtUtils();
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		System.out.println("Ecom App Started from Backend!");
 	}
 
 }

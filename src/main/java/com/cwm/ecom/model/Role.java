@@ -1,9 +1,13 @@
 package com.cwm.ecom.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,19 +20,16 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table
 @ToString
 @Builder
 @Entity
-public class Address {
+@Table(name = "roles")
+public class Role {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String street;
-	private String state;
-	private String city;
-	private String country;
-	private String pin;
+	private String name;
 
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "role")
+	private Set<UserRole> userRoles = new HashSet<>();
 }

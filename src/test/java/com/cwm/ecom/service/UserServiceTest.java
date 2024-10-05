@@ -28,9 +28,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.cwm.ecom.dao.AddressDao;
 import com.cwm.ecom.dao.UserDao;
-import com.cwm.ecom.model.Address;
 import com.cwm.ecom.model.User;
 import com.cwm.ecom.service.impl.UserServiceImpl;
 
@@ -40,8 +38,6 @@ class UserServiceTest {
 	@Mock
 	private UserDao userDao;
 
-	@Mock
-	private AddressDao addressDao;
 
 	@Mock
 	private BCryptPasswordEncoder passwordEncoder;
@@ -54,19 +50,17 @@ class UserServiceTest {
 	private UserServiceImpl userService;
 
 	private User user1, user2;
-	private Address address;
 	private List<User> usersList = new ArrayList<>();
 	private Set<String> roles = new HashSet<>();
 
 	@BeforeEach
 	void setUp() throws Exception {
 		roles.add("Admin");
-		address = Address.builder().street("karvenager").city("Pune").state("Maharashtra").country("INDIA")
-				.pin("411052").build();
+		
 		user1 = User.builder().firstName("Mayur").lastName("Bhosale").email("mayur@test.com").contact("1234567890")
-				.username("username").password("password").address(address).role(roles).build();
+				.username("username").password("password").role(roles).build();
 		user2 = User.builder().firstName("Shyam").lastName("Kadam").email("shyam@test.com").contact("1234567891")
-				.username("username1").password("password1").address(address).role(roles).build();
+				.username("username1").password("password1").role(roles).build();
 
 		usersList.add(user1);
 		usersList.add(user2);
@@ -74,11 +68,8 @@ class UserServiceTest {
 
 	@Test
 	void testSaveUser() {
-
-		
 		
 		 when(passwordEncoder.encode(user1.getPassword())).thenReturn("password");
-		  when(addressDao.save(address)).thenReturn(address);
 		
 		  when(this.userDao.save(user1)).thenReturn(user1);
 		
@@ -93,13 +84,10 @@ class UserServiceTest {
 		  assertThat(user.getEmail()).isEqualTo("mayur@test.com");
 		  assertThat(user.getContact()).isEqualTo("1234567890");
 		  
-		  //Check Address Details
-		  assertThat(user.getAddress().getCountry()).isEqualTo("INDIA");
-		  assertThat(user.getAddress().getPin()).isEqualTo("411052");
-		  assertThat(user.getAddress().getStreet()).isEqualTo("karvenager");
+		 
 		  
 		 User  user3 = User.builder().firstName("Mayur").lastName("Bhosale").email("mayur@test.com").contact("1234567890")
-					.username("username").password("password").address(null).role(roles).build();
+					.username("username").password("password").role(roles).build();
 		  this.userService.saveUser(user3);
 		  
 	}
@@ -113,13 +101,9 @@ class UserServiceTest {
 		
 		assertThat(users.size()).isEqualTo(2);
 		assertThat(users.get(0).getFirstName()).isEqualTo("Mayur");
-		assertThat(users.get(0).getAddress().getStreet()).isEqualTo("karvenager");
 		assertThat(users.get(1).getLastName()).isEqualTo("Kadam");
-		assertThat(users.get(0).getAddress().getCity()).isEqualTo("Pune");
 		assertThat(users.get(0).getEmail()).isEqualTo("mayur@test.com");
-		assertThat(users.get(0).getAddress().getState()).isEqualTo("Maharashtra");
 		assertThat(users.get(1).getUsername()).isEqualTo("username1");
-		assertThat(users.get(0).getAddress().getCountry()).isEqualTo("INDIA");
 		assertThat(users.get(0).getPassword()).isEqualTo("password");
 		
 	}
@@ -138,8 +122,6 @@ class UserServiceTest {
 		  assertThat(user.getEmail()).isEqualTo("shyam@test.com");
 		  assertThat(user.getContact()).isEqualTo("1234567891");
 		  
-		  assertThat(user.getAddress().getCity()).isEqualTo("Pune");
-			assertThat(user.getAddress().getPin()).isEqualTo("411052");
 		
 	}
 
@@ -155,8 +137,6 @@ class UserServiceTest {
 		  assertThat(user.getEmail()).isEqualTo("shyam@test.com");
 		  assertThat(user.getContact()).isEqualTo("1234567891");
 		  
-		  assertThat(user.getAddress().getCity()).isEqualTo("Pune");
-			assertThat(user.getAddress().getPin()).isEqualTo("411052");
 	}
 
 	@Test

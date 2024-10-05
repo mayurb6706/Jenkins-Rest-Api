@@ -25,7 +25,6 @@ public class ProductResponse {
 	private int unitsInStock;
 	private String imageUrl;
 	private Date dateCreadted;
-	private Date lastUpdated;
 	private String description;
 	private Category category;
 

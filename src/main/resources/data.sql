@@ -1,8 +1,59 @@
+DROP TABLE IF EXISTS roles CASCADE;
+CREATE TABLE roles (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+-- Inserting sample roles
+INSERT INTO roles (id,name) 
+VALUES 
+    (1,'ADMIN'),
+    (2,'USER');
+
+
+DROP TABLE IF EXISTS users CASCADE;
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    first_name VARCHAR(255),
+    last_name VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    contact VARCHAR(255) UNIQUE,
+    username VARCHAR(255) UNIQUE,
+    password VARCHAR(255)
+);
+
+-- Inserting sample users
+INSERT INTO users (first_name, last_name, email, contact, username, password) 
+VALUES 
+    ('Mayur', 'Bhosale', 'mayurbhosale240@gmail.com', '7020962188', 'fa0wlhg', '$2a$10$LvlnKUtzogdjv9rvTgcOiunN1qlvjuwHUHLgWivBRguaSKZIuRFOW');
+
+DROP TABLE IF EXISTS user_role;
+CREATE TABLE user_role(
+    user_role_id SERIAL PRIMARY KEY,
+    user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
+    role_id BIGINT REFERENCES roles(id) ON DELETE CASCADE
+);
+-- Inserting user roles
+INSERT INTO user_role (user_id, role_id) 
+VALUES 
+    (1, 1), 
+    (1, 2); 
+
 DROP TABLE IF EXISTS category CASCADE;
 CREATE TABLE IF NOT EXISTS category (
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL UNIQUE
 );
+
+-- -- -----------------------------------------------------
+-- -- Categories
+-- -- -----------------------------------------------------
+INSERT INTO category (name) VALUES ('Books')
+ON CONFLICT (name) DO NOTHING;
+INSERT INTO category(id,name) VALUES (2,'Coffee Mugs')ON CONFLICT (name) DO NOTHING; ;
+INSERT INTO category(id,name) VALUES (3,'Mouse Pads')ON CONFLICT (name) DO NOTHING; ;
+INSERT INTO category(id,name) VALUES (4,'Luggage Tags')ON CONFLICT (name) DO NOTHING; ;
+
 
 DROP TABLE IF EXISTS product;
 CREATE TABLE IF NOT EXISTS product (
@@ -18,14 +69,6 @@ CREATE TABLE IF NOT EXISTS product (
     date_created TIMESTAMP DEFAULT NOW(),
     FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
 );
--- -- -----------------------------------------------------
--- -- Categories
--- -- -----------------------------------------------------
-INSERT INTO category (name) VALUES ('Books')
-ON CONFLICT (name) DO NOTHING;
-INSERT INTO category(id,name) VALUES (2,'Coffee Mugs')ON CONFLICT (name) DO NOTHING; ;
-INSERT INTO category(id,name) VALUES (3,'Mouse Pads')ON CONFLICT (name) DO NOTHING; ;
-INSERT INTO category(id,name) VALUES (4,'Luggage Tags')ON CONFLICT (name) DO NOTHING; ;
 
 -- -- -----------------------------------------------------
 -- -- Books
