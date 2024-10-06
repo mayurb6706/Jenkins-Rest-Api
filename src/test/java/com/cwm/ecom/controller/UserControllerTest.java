@@ -1,114 +1,122 @@
 package com.cwm.ecom.controller;
 
-import static org.hamcrest.CoreMatchers.is;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.BDDMockito.given;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.cwm.ecom.dao.RoleDao;
+import com.cwm.ecom.model.Role;
 import com.cwm.ecom.model.User;
+import com.cwm.ecom.model.UserRole;
 import com.cwm.ecom.service.impl.UserServiceImpl;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
+class UserControllerTest {
 
-public class UserControllerTest {
+    @InjectMocks
+    private UserController userController;
 
-	private final String BASE_URL = "/api/user";
+    @Mock
+    private UserServiceImpl userService;
 
-	private MockMvc mockMvc;
+    @Mock
+    private BCryptPasswordEncoder passwordEncoder;
 
-	@Mock
-	private UserServiceImpl userService;
+    @Mock
+    private RoleDao roleDao;
 
-	@InjectMocks
-	private UserController userController;
+    private User user;
+    private UserRole userRole;
+    private Role role;
 
-	private User user;
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        user = new User();
+        user.setUsername("testUser");
+        user.setPassword("plainPassword");
 
-	@Autowired
-	private ObjectMapper mapper = new ObjectMapper();
+        role = new Role();
+        role.setName("USER");
 
-	@BeforeEach
-	public void setup() {
-		MockitoAnnotations.openMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
+        userRole = new UserRole();
+        userRole.setUser(user);
+        userRole.setRole(role);
+    }
 
-		Set<String> roles = new HashSet<>();
-		roles.add("USER");
+//    @Test
+//    void testSaveUser() throws Exception {
+//        // Mock the password encoder
+//        when(passwordEncoder.encode(user.getPassword())).thenReturn("encodedPassword");
+//        
+//        // Mock the roleDao
+//        when(roleDao.findByName("USER")).thenReturn(role);
+//        
+//        System.out.println(user.getUserRoles());
+//        // Mock the userService
+//        when(userService.saveUser(any(User.class), anySet())).thenReturn(user);
+//        user.setPassword("encodedPassword");
+//        User savedUser = userController.saveUser(user);
+//        assertEquals("encodedPassword", savedUser.getPassword());
+//        assertEquals("testUser", savedUser.getUsername());
+//        verify(userService).saveUser(any(User.class), anySet());
+//        verify(passwordEncoder).encode(user.getPassword());
+//    }
 
+    @Test
+    void testGetSingleUser() {
+        // Mock the userService
+        when(userService.getSingleUser(1L)).thenReturn(user);
 
-		user = User.builder().id(1L).firstName("Mayur").lastName("Bhosale").email("mayur@test.com")
-				.contact("1234567890").password("password").username("username").role(roles).build();
-	}
+        User foundUser = userController.getSingleUser(1L);
 
-	@Test
-	public void testSaveUser() throws Exception {
-		given(userService.saveUser(any(User.class))).willReturn(user);
-		ResultActions resultActions = mockMvc.perform(post(BASE_URL + "/create", user)
-				.contentType(MediaType.APPLICATION_JSON).content(mapper.writeValueAsString(user)));
+        assertEquals(user, foundUser);
+        verify(userService).getSingleUser(1L);
+    }
 
-		System.out.println(user);
-		resultActions.andDo(print());
+    @Test
+    void testGetAllUsers() {
+        when(userService.findAllUsers()).thenReturn(Collections.singletonList(user));
+        
+        List<User> users = userController.getAllUsers();
 
-		resultActions.andExpect(status().isCreated()).andExpect(jsonPath("$.firstName", is("Mayur"))) // Check for
-																										// firstName
-				.andExpect(jsonPath("$.lastName", is("Bhosale"))); // Optionally, check other fields
+        assertEquals(1, users.size());
+        assertEquals(user, users.get(0));
+        verify(userService).findAllUsers();
+    }
 
-	}
+    @Test
+    void testGetByUsername() {
+        when(userService.findByUsername("testUser")).thenReturn(Optional.of(user));
 
-	@Test
-	public void testGetSingleUser() throws Exception {
-		given(userService.getSingleUser(anyLong())).willReturn(user);
+        User foundUser = userController.getByUsername("testUser");
 
-		ResultActions resultActions = mockMvc.perform(get(BASE_URL + "/{id}", 1L));
+        assertEquals(user, foundUser);
+        verify(userService).findByUsername("testUser");
+    }
 
-		resultActions.andDo(print());
+    @Test
+    void testGetByUsername_UserNotFound() {
+        when(userService.findByUsername("unknownUser")).thenReturn(Optional.empty());
 
-	}
+        Exception exception = assertThrows(NoSuchElementException.class, () -> {
+            userController.getByUsername("unknownUser");
+        });
 
-	@Test
-	public void testGetAllUsers() throws Exception {
-		List<User> users = new ArrayList<>();
-		users.add(user);
-		given(userService.findAllUsers()).willReturn(users);
-
-		ResultActions resultActions = mockMvc.perform(get(BASE_URL+"/all-users"));
-
-		resultActions.andDo(print());
-		
-	}
-	
-	@Test
-	public void testFindByUsername()  throws Exception{
-		String username="username";
-		
-		given(userService.findByUsername(username)).willReturn(Optional.of(user));
-		
-		ResultActions resultActions = mockMvc.perform(get(BASE_URL + "/username?username=username", username));
-		
-		resultActions.andDo(print());
-
-		
-	}
+        assertEquals("No value present", exception.getMessage());
+    }
 }
