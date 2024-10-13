@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			throw new Exception("User already Exist!");
 		} else {
 			for (UserRole role : userRole) {
-				System.out.println("User roles" + role.toString());
+				System.out.println("User roles" + role.getRole().getName());
 				roleDao.save(role.getRole());
 				
 			}
