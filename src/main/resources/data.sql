@@ -33,6 +33,7 @@ CREATE TABLE user_role(
     user_id BIGINT REFERENCES users(id) ON DELETE CASCADE,
     role_id BIGINT REFERENCES roles(id) ON DELETE CASCADE
 );
+
 -- Inserting user roles
 INSERT INTO user_role (user_id, role_id) 
 VALUES 

@@ -44,7 +44,7 @@ public class UserController {
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public User saveUser(@RequestBody User user) throws Exception {
 	
-		user.setUsername(passwordEncoder.encode(user.getPassword()));
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		Set<UserRole> roles = new HashSet<>();
 		 Role role = roleDao.findByName("USER");
 	        UserRole userRole = new UserRole();
