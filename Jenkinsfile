@@ -22,6 +22,22 @@ pipeline {
                 }
             }
         }
+        stage('Deploy') {
+            steps {
+                script {
+                     def warFile = 'C:\\Users\\mayur\\.jenkins\\workspace\\Script_Pipeline\\target\\ecom-app.war'
+                     def tomcatUrl = 'http://localhost:9090/manager/text'
+                    def tomcatUser = 'admin'
+                    def tomcatPassword = 'admin'
+
+                    // Deploy the WAR file using curl
+                  bat """
+                    curl -u ${tomcatUser}:${tomcatPassword} --upload-file ${warFile} "${tomcatUrl}/deploy?path=/ecom-app&update=true"
+                    """
+                }
+            }
+        }
+        
        
     }
 }
