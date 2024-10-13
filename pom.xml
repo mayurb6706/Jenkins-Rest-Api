@@ -17,7 +17,11 @@
     <properties>
         <java.version>17</java.version>
         <project-name>ecom-app</project-name>
+<<<<<<< Updated upstream
        <sonar.host.url>http://localhost:9000/</sonar.host.url>
+=======
+        <sonar.host.url>http://localhost:9000/</sonar.host.url>
+>>>>>>> Stashed changes
         <sonar.login>admin</sonar.login>
         <sonar.password>password</sonar.password>
     </properties>

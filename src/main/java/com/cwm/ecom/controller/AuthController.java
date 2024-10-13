@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Login Api", description = "User login api to generate user auth token.")
+@CrossOrigin(value = "http://localhost:4200")
 public class AuthController {
 
 	
@@ -37,7 +39,8 @@ public class AuthController {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword()));
 		String token = utils.gernerateToken(userRequest.getUsername());
-		System.out.println("Authentication " + authentication);
+//		System.out.println("Authentication " + authentication);
+		System.out.println(token);
 		UserResponse response = UserResponse.builder().token(token).message("Success").status(HttpStatus.OK).build();
 		return response;
 
