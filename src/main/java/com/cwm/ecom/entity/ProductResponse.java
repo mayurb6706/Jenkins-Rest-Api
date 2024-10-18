@@ -27,7 +27,6 @@ public class ProductResponse {
 	private Date dateCreadted;
 	private String description;
 	private Category category;
-
 	private Boolean active;
 
 }

@@ -3,9 +3,8 @@ package com.cwm.ecom.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,6 +13,7 @@ import com.cwm.ecom.service.impl.CategoryServiceImpl;
 
 @RestController
 @RequestMapping("/api/category")
+@CrossOrigin("http://localhost:4200")
 public class CategoryController {
 
 	private final CategoryServiceImpl serviceImpl;
@@ -21,13 +21,7 @@ public class CategoryController {
 	@Autowired
 	public CategoryController(CategoryServiceImpl categoryServiceImpl) {
 		this.serviceImpl=categoryServiceImpl;
-	}
-	@PostMapping("/add")
-	public Category addCategory(@RequestBody Category category) {
-		Category cat= this.serviceImpl.addCategory(category);
-		return cat;
-	}
-	
+	}	
 	@GetMapping("/all")
 	public List<Category> getAllCategories(){
 		List<Category> categories= this.serviceImpl.allCategories();

@@ -14,8 +14,6 @@ import com.cwm.ecom.exception.ProductNotFoundException;
 import com.cwm.ecom.model.Product;
 import com.cwm.ecom.service.ProductService;
 
-import lombok.AllArgsConstructor;
-
 @Service
 public class ProductServiceImpl implements ProductService {
 
@@ -49,6 +47,7 @@ public class ProductServiceImpl implements ProductService {
 		List<Product> productList=this.prodDao.findAll();
 		List<ProductResponse> responseList=productList.stream().map(prod->{
 			ProductResponse response= ProductResponse.builder()
+					.id(prod.getId())
 					.name(prod.getName())
 					.sku(prod.getSku())
 					.unitPrice(prod.getUnitPrice())
@@ -67,6 +66,7 @@ public class ProductServiceImpl implements ProductService {
 	public ProductResponse getProductById(Long id) {
 	Product prod= this.prodDao.findById(id).orElseThrow(()-> new ProductNotFoundException("Product not exit with id "+id));
 	ProductResponse response=ProductResponse.builder()
+			.id(id)
 			.name(prod.getName())
 			.sku(prod.getSku())
 			.unitPrice(prod.getUnitPrice())
@@ -104,6 +104,25 @@ public class ProductServiceImpl implements ProductService {
 	
 		Product productFromDB= this.prodDao.findById(productId).orElseThrow(()->new ProductNotFoundException("Product not exit with id "+productId));	
 		prodDao.delete(productFromDB);
+	}
+	@Override
+	public List<ProductResponse> searchProductsByName(String name) {
+		List<Product> products= this.prodDao.findByNameContainingIgnoreCase(name);
+		List<ProductResponse> responseList=products.stream().map(prod->{
+			ProductResponse response= ProductResponse.builder()
+					.id(prod.getId())
+					.name(prod.getName())
+					.sku(prod.getSku())
+					.unitPrice(prod.getUnitPrice())
+					.unitsInStock(prod.getUnitsInStock())
+					.description(prod.getDescription())
+					.imageUrl(prod.getImageUrl())
+					.dateCreadted(prod.getDateCreated())
+					.category(prod.getCategory())
+					.build();
+			return response;
+		}).collect(Collectors.toList());
+		return responseList;
 	}
 
 

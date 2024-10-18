@@ -6,17 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.cwm.ecom.entity.ProductRequest;
 import com.cwm.ecom.entity.ProductResponse;
 import com.cwm.ecom.service.impl.ProductServiceImpl;
 
@@ -25,7 +21,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping(path = "/api/product")
 @Tag(name = "Product Api", description = "Product  APIs")
-@CrossOrigin("*")
+
+@CrossOrigin("http://localhost:4200")
+
 public class ProductController {
 
 	
@@ -34,13 +32,6 @@ public class ProductController {
 	@Autowired
 	public ProductController(ProductServiceImpl impl) {
 		this.productService=impl;
-	}
-	@PostMapping
-	@ResponseStatus(value = HttpStatus.CREATED)
-	public ProductResponse addProduct(@RequestBody ProductRequest product) {
-
-		ProductResponse response = this.productService.addProduct(product);
-		return response;
 	}
 
 	@GetMapping("/{id}")
@@ -56,21 +47,11 @@ public class ProductController {
 
 	}
 
-	@PutMapping("/{id}")
+
+	@GetMapping("/name")
 	@ResponseStatus(value = HttpStatus.OK)
-	public ProductResponse updateProduct(@PathVariable(value = "id") Long productId,
-			@RequestBody ProductRequest productRequest) {
-
-		ProductResponse productResponse = this.productService.updateProduct(productId, productRequest);
-
-		return productResponse;
+	public ResponseEntity<List<ProductResponse>> getProductByName(@RequestParam String name){
+		List<ProductResponse> productResponses= this.productService.searchProductsByName(name);
+		return ResponseEntity.ok(productResponses);
 	}
-
-	@DeleteMapping("/{id}")
-	@ResponseStatus(value = HttpStatus.OK)
-	public String deleteProduct(@PathVariable(value = "id") Long productId) {
-		this.productService.deleteProduct(productId);
-		return "Deleted";
-	}
-
 }

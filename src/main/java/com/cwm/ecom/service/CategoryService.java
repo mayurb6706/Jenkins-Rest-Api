@@ -9,4 +9,5 @@ public interface CategoryService {
 	Category addCategory(Category category);
 	
 	List<Category> allCategories();
+	
 }
