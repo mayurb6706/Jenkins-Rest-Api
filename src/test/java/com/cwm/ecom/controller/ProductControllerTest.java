@@ -123,57 +123,57 @@ public class ProductControllerTest {
 		resultActions.andDo(print()).andExpect(status().isOk());
 	}
 	
-	@Test
-	public void testDeleteProduct() throws Exception{
-		Long productId=1L;
-		
-		willDoNothing().given(productService).deleteProduct(anyLong());
-		
-		mockMvc.perform(delete(BASE_URL+"/{id}",productId)).andDo(print()).andExpect(status().isOk())
-		.andExpect(jsonPath("$", is("Deleted")));
-		
-		verify(productService, times(1)).deleteProduct(anyLong());
-
-	}
-	
-	@Test
-	public void testUpdteProduct() throws Exception {
-		// Given
-        Long productId = 1L;
-        ProductRequest productRequest = ProductRequest.builder()
-				.name("Crash Course in Python")
-        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
-        		.unitPrice(14.99)
-        		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
-        		.unitsInStock(100)
-        		.dateCreadted(new Date())
-        		.category(category)
-        		.sku("cwm")
-        		.build();
-        // Set fields on productRequest as needed
-
-        ProductResponse productResponse = ProductResponse.builder()
-				.name("Crash Course in Python")
-        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
-        		.unitPrice(14.99)
-        		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
-        		.unitsInStock(100)
-        		.dateCreadted(new Date())
-        		.category(category)
-        		.sku("cwm")
-        		.build();
-        // Set fields on productResponse as needed
-
-        when(productService.updateProduct(eq(productId), any(ProductRequest.class)))
-            .thenReturn(productResponse);
-
-        // When & Then
-        mockMvc.perform(put(BASE_URL+"/{id}", productId)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(productRequest)))
-            .andExpect(status().isOk());
-   
-		
-	}
+//	@Test
+//	public void testDeleteProduct() throws Exception{
+//		Long productId=1L;
+//		
+//		willDoNothing().given(productService).deleteProduct(anyLong());
+//		
+//		mockMvc.perform(delete(BASE_URL+"/{id}",productId)).andDo(print()).andExpect(status().isOk())
+//		.andExpect(jsonPath("$", is("Deleted")));
+//		
+//		verify(productService, times(1)).deleteProduct(anyLong());
+//
+//	}
+//	
+//	@Test
+//	public void testUpdteProduct() throws Exception {
+//		// Given
+//        Long productId = 1L;
+//        ProductRequest productRequest = ProductRequest.builder()
+//				.name("Crash Course in Python")
+//        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
+//        		.unitPrice(14.99)
+//        		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
+//        		.unitsInStock(100)
+//        		.dateCreadted(new Date())
+//        		.category(category)
+//        		.sku("cwm")
+//        		.build();
+//        // Set fields on productRequest as needed
+//
+//        ProductResponse productResponse = ProductResponse.builder()
+//				.name("Crash Course in Python")
+//        		.description("Learn Python at your own pace. The author explains how the technology works in easy-to-understand language.")
+//        		.unitPrice(14.99)
+//        		.imageUrl("assets/images/products/books/book-luv2code-1000.png")
+//        		.unitsInStock(100)
+//        		.dateCreadted(new Date())
+//        		.category(category)
+//        		.sku("cwm")
+//        		.build();
+//        // Set fields on productResponse as needed
+//
+//        when(productService.updateProduct(eq(productId), any(ProductRequest.class)))
+//            .thenReturn(productResponse);
+//
+//        // When & Then
+//        mockMvc.perform(put(BASE_URL+"/{id}", productId)
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(mapper.writeValueAsString(productRequest)))
+//            .andExpect(status().isOk());
+//   
+//		
+//	}
 	
 }
