@@ -10,4 +10,6 @@ public interface CategoryService {
 	
 	List<Category> allCategories();
 	
+	Category findById(Long id);
+	
 }

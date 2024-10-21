@@ -47,7 +47,6 @@ public class ProductController {
 
 	}
 
-
 	@GetMapping("/name")
 	@ResponseStatus(value = HttpStatus.OK)
 	public ResponseEntity<List<ProductResponse>> getProductByName(@RequestParam String name){

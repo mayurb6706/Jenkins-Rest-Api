@@ -2,6 +2,8 @@ package com.cwm.ecom.model;
 
 import java.util.Date;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,10 +40,10 @@ public class Product {
 	private String description;
 
 	@ManyToOne
+	@JsonIgnore
 	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
 	private Boolean active;
-
 
 }

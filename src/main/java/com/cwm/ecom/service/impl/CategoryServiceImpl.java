@@ -30,4 +30,12 @@ public class CategoryServiceImpl implements CategoryService {
 		return this.categoryDao.findAll();
 	}
 
+	@Override
+	public Category findById(Long id) {
+		Category category= this.categoryDao.findById(id).get();
+		return category;
+	}
+	
+	
+
 }
