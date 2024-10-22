@@ -28,7 +28,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/user")
 @Tag(name = "User Api")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:4200")
 public class UserController {
 	
 	

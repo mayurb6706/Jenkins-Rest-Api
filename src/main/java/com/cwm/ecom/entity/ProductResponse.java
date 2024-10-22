@@ -3,6 +3,7 @@ package com.cwm.ecom.entity;
 import java.util.Date;
 
 import com.cwm.ecom.model.Category;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,6 +27,7 @@ public class ProductResponse {
 	private String imageUrl;
 	private Date dateCreadted;
 	private String description;
+	@JsonIgnore
 	private Category category;
 	private Boolean active;
 

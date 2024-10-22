@@ -39,8 +39,6 @@ public class AuthController {
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(userRequest.getUsername(), userRequest.getPassword()));
 		String token = utils.gernerateToken(userRequest.getUsername());
-//		System.out.println("Authentication " + authentication);
-		System.out.println(token);
 		UserResponse response = UserResponse.builder().token(token).message("Success").status(HttpStatus.OK).build();
 		return response;
 
