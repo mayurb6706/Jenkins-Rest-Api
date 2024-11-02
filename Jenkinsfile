@@ -6,7 +6,7 @@ pipeline {
     stages {
         stage('Get Code') {
             steps {
-                git credentialsId: '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', url: 'https://github.com/mayurb6706/Jenkins-Rest-Api.git'
+                git credentialsId: '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', url: 'https://github.com/mayurb6706/Jenkins-Rest-Api.git'
             }
         }
         stage('Build') {
