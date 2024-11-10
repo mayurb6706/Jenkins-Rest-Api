@@ -88,16 +88,7 @@ class UserControllerTest {
         verify(userService).getSingleUser(1L);
     }
 
-    @Test
-    void testGetAllUsers() {
-        when(userService.findAllUsers()).thenReturn(Collections.singletonList(user));
-        
-        List<User> users = userController.getAllUsers();
-
-        assertEquals(1, users.size());
-        assertEquals(user, users.get(0));
-        verify(userService).findAllUsers();
-    }
+  
 
     @Test
     void testGetByUsername() {

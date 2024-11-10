@@ -10,7 +10,6 @@ import com.cwm.ecom.model.UserRole;
 public interface UserService {
 
 	public User saveUser(User user,Set<UserRole> userRole) throws Exception;
-	public List<User> findAllUsers();
 	public User getSingleUser(Long userId);
 	Optional<User> findByUsername(String username);
 }

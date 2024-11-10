@@ -55,12 +55,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	}
 
-	@Override
-	public List<User> findAllUsers() {
-
-		return userDao.findAll();
-	}
-
+	
 	@Override
 	public User getSingleUser(Long userId) {
 		User user = userDao.findById(userId).orElseThrow();

@@ -65,11 +65,6 @@ public class UserController {
 		return userService.getSingleUser(userId);
 	}
 
-	@GetMapping("/all-users")
-	@ResponseStatus(value = HttpStatus.OK)
-	public List<User> getAllUsers() {
-		return userService.findAllUsers();
-	}
 
 	@GetMapping("/username")
 	@ResponseStatus(value = HttpStatus.OK)
